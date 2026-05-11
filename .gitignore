@@ -1,0 +1,13 @@
+# Brainstorming session artifacts (visual companion mockups, server state)
+.superpowers/
+
+# macOS
+.DS_Store
+
+# Editors / IDEs (general)
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# (Flutter / iOS / Android entries will be appended by `very_good create` when the project is scaffolded.)
