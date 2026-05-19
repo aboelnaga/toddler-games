@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:toddler_games/counter/counter.dart';
 import 'package:toddler_games/l10n/l10n.dart';
 
 class App extends StatelessWidget {
@@ -16,7 +15,11 @@ class App extends StatelessWidget {
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
+      home: const Scaffold(
+        body: Center(
+          child: Text('Toddler Games — scaffold ready'),
+        ),
+      ),
     );
   }
 }
