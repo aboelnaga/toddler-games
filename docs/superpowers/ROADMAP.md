@@ -1,6 +1,6 @@
 # Roadmap & Status
 
-**Last updated:** 2026-05-12
+**Last updated:** 2026-05-19
 **Purpose:** orientation for any session (human or agent) picking up this project. Read this first.
 
 ---
@@ -34,7 +34,7 @@ We build the app as a series of small, independently shippable slices. Each slic
 
 | # | Slice | Plan | Status | Output |
 |---|---|---|---|---|
-| 0 | Project scaffold + tooling | [plan](plans/2026-05-11-slice-0-scaffold-and-tooling.md) | **Planned, ready to execute** | Empty app runs on iOS sim + Android emu, with Riverpod, go_router, lint stack, codegen, CI, lefthook, AI rules, compliance hardening |
+| 0 | Project scaffold + tooling | [plan](plans/2026-05-11-slice-0-scaffold-and-tooling.md) | **Complete** (tag: `slice-0-complete`) | Empty app runs on iOS sim + Android emu, with Riverpod 3, go_router 17, lint stack, codegen, CI, lefthook, AI rules, compliance hardening |
 | 1 | App shell | [plan](plans/2026-05-11-slice-1-app-shell.md) | **Planned, ready to execute** | Home icon grid (placeholder tiles) + parent gate + settings, end-to-end navigable |
 | 2 | Game 1: Tap-to-Discover Zoo | not yet written | **Plan pending** | First real game vertical: AudioService, voice playback, scene rendering, tap-react animations |
 | 3 | Game 2: Bubble Pop | not yet written | **Skeleton pending** | Many moving sprites tap-to-pop |
@@ -52,13 +52,13 @@ We build the app as a series of small, independently shippable slices. Each slic
 1. **Read the PRD first**, then the design spec. Both live under `docs/superpowers/specs/`.
 2. **Check `MEMORY.md`** (auto-loaded by Claude Code when you open the project) for the hard invariants and project conventions.
 3. **Pick your next move**:
-   - If you're starting work: execute the next un-shipped slice (start with Slice 0 if no `slice-0-complete` git tag exists).
+   - If you're starting work: execute the next un-shipped slice (**Slice 1** is next — Slice 0 is complete).
    - If you need to plan: write the next missing plan (Slice 2, then 3–7 skeletons).
 4. **Reference docs for any decision**:
    - Stack and rationale → design spec §9, §10
    - Product values and out-of-scope → PRD §5, §8, §9
    - Compliance posture → design spec §6
-5. **AI rules**: once Slice 0 lands, `CLAUDE.md` will exist at repo root with the canonical invariants. Until then, this ROADMAP + the spec + project memory carry that load.
+5. **AI rules**: `CLAUDE.md` is at repo root with the canonical invariants (Slice 0 is complete).
 
 ---
 
@@ -78,7 +78,7 @@ Tasks within a plan are decomposed into 2–5 minute steps with explicit TDD whe
 These were debated and approved during brainstorming (2026-05-10 → 2026-05-11):
 
 - Target: publish to Apple Kids Category + Google Play Designed for Families (not just personal use).
-- Tech: Flutter stable + Riverpod 2 + go_router. **No Flame in v1** — pure widgets. Door open per-game later.
+- Tech: Flutter stable + Riverpod 3 + go_router 17. **No Flame in v1** — pure widgets. Door open per-game later.
 - Art: hybrid storybook (saturated chunky characters on warm watercolor backdrops). Generated via Nano Banana (Gemini 2.5 Flash Image) with a style-bible workflow.
 - Audio: no music; SFX + voice + ambience + vocal celebrations only.
 - Languages: Egyptian Arabic primary, English secondary toggle. MSA punted to v2.
@@ -123,7 +123,7 @@ docs/superpowers/
   dev_tooling_stack.md
 ```
 
-When Slice 0 lands, the repo gains:
+Slice 0 has landed. The repo now has:
 
 ```
 CLAUDE.md                                         ← AI rules (canonical)
@@ -146,7 +146,8 @@ pubspec.yaml                                      ← deps + asset registration
 
 If you (or any future agent) are picking up here cold and want to make progress:
 
-- **Write Slice 2 plan first** if you intend to execute Slice 0 + 1 then have Slice 2 ready to go.
-- **Or execute Slice 0 immediately** — it's fully planned, doesn't need Slice 2 written first. Plan Slice 2 after Slice 0 lands (you'll have a real codebase to point at by then).
+- **Execute Slice 1** — the app shell is fully planned and ready. Run it next.
+- **Write Slice 2 plan** if you want to have it ready before starting Slice 2 (you now have a real codebase to point at).
+- **Write Slices 3–7 skeleton plans** in parallel with Slice 1 execution if time allows.
 
 The brainstorming and planning loop is done unless requirements change. Implementation is the next phase.
