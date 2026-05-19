@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toddler_games/core/audio/audio_service.dart';
 import 'package:toddler_games/core/settings/settings_notifier.dart';
 import 'package:toddler_games/core/settings/settings_service.dart';
 import 'package:toddler_games/features/games/finger_paint/color_palette.dart';
@@ -102,7 +101,7 @@ void main() {
         (w) =>
             w is Container &&
             w.decoration is BoxDecoration &&
-            (w.decoration as BoxDecoration).color == const Color(0xFFFB8C00),
+            (w.decoration! as BoxDecoration).color == const Color(0xFFFB8C00),
       );
       await tester.tap(orangeCircle.first);
       await tester.pump();
