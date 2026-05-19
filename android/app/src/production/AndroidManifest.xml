@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- Belt-and-suspenders: even if a transitive dependency declares INTERNET,
+         the manifest merger strips it from the production build. The app is
+         fully offline (zero data collection compliance posture). -->
+    <uses-permission android:name="android.permission.INTERNET" tools:node="remove" />
+</manifest>
