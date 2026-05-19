@@ -35,3 +35,14 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
+  assets:
+    - assets/images/ui/
+    - assets/images/games/zoo/
+    - assets/images/games/bubble_pop/
+    - assets/images/games/shape_sorter/
+    - assets/images/games/finger_paint/
+    - assets/images/games/drive_vehicle/
+    - assets/audio/sfx/
+    - assets/audio/ambience/
+    - assets/audio/voice/ar-EG/
+    - assets/audio/voice/en/
