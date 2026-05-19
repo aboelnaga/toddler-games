@@ -1,0 +1,30 @@
+name: Compliance
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  forbidden-sdks:
+    name: Check for forbidden SDKs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Pub get
+        run: flutter pub get
+      - name: Forbidden SDK check
+        run: ./scripts/check_forbidden_sdks.sh
+
+  no-internet-permission:
+    name: Check no INTERNET permission in release manifest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: INTERNET permission check
+        run: ./scripts/check_no_internet_permission.sh
