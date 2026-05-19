@@ -1,6 +1,34 @@
 {
   "@@locale": "ar",
   "appTitle": "ألعاب الأطفال",
+
   "homeTitle": "الرئيسية",
-  "settingsTitle": "الإعدادات"
+  "settingsTitle": "الإعدادات",
+  "settingsForGrownUps": "للكبار",
+
+  "parentGatePrompt": "{a} + {b} = ؟",
+  "parentGateHelp": "اضغط على الإجابة",
+
+  "settingsLanguage": "اللغة",
+  "settingsLanguageArabic": "العربية المصرية",
+  "settingsLanguageEnglish": "إنجليزي",
+
+  "settingsSound": "الصوت",
+  "settingsSoundOn": "مفعل",
+  "settingsSoundOff": "مغلق",
+
+  "settingsGames": "الألعاب",
+  "settingsGameZoo": "حديقة الحيوان",
+  "settingsGameBubblePop": "الفقاعات",
+  "settingsGameShapeSorter": "الأشكال",
+  "settingsGameFingerPaint": "الرسم",
+  "settingsGameDriveVehicle": "العربية",
+
+  "settingsAbout": "عن التطبيق",
+  "settingsVersion": "النسخة {version}",
+  "settingsSupportEmail": "الدعم",
+  "settingsPrivacyPolicy": "سياسة الخصوصية",
+  "settingsTerms": "الشروط",
+
+  "placeholderGameMessage": "اللعبة دي هتيجي قريب"
 }

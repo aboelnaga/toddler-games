@@ -97,23 +97,149 @@ abstract class AppLocalizations {
     Locale('en')
   ];
 
-  /// App display name shown in store and on splash
+  /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
   /// **'Toddler Games'**
   String get appTitle;
 
-  /// Title for the home screen (hidden in v1; tiles are images)
+  /// No description provided for @homeTitle.
   ///
   /// In en, this message translates to:
   /// **'Home'**
   String get homeTitle;
 
-  /// Title for the parent settings screen
+  /// No description provided for @settingsTitle.
   ///
   /// In en, this message translates to:
   /// **'Settings'**
   String get settingsTitle;
+
+  /// Header on parent gate and settings
+  ///
+  /// In en, this message translates to:
+  /// **'For Grown-Ups'**
+  String get settingsForGrownUps;
+
+  /// No description provided for @parentGatePrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'What is {a} + {b} = ?'**
+  String parentGatePrompt(int a, int b);
+
+  /// No description provided for @parentGateHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the answer'**
+  String get parentGateHelp;
+
+  /// No description provided for @settingsLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settingsLanguage;
+
+  /// No description provided for @settingsLanguageArabic.
+  ///
+  /// In en, this message translates to:
+  /// **'Egyptian Arabic'**
+  String get settingsLanguageArabic;
+
+  /// No description provided for @settingsLanguageEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get settingsLanguageEnglish;
+
+  /// No description provided for @settingsSound.
+  ///
+  /// In en, this message translates to:
+  /// **'Sound'**
+  String get settingsSound;
+
+  /// No description provided for @settingsSoundOn.
+  ///
+  /// In en, this message translates to:
+  /// **'On'**
+  String get settingsSoundOn;
+
+  /// No description provided for @settingsSoundOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get settingsSoundOff;
+
+  /// No description provided for @settingsGames.
+  ///
+  /// In en, this message translates to:
+  /// **'Games'**
+  String get settingsGames;
+
+  /// No description provided for @settingsGameZoo.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoo'**
+  String get settingsGameZoo;
+
+  /// No description provided for @settingsGameBubblePop.
+  ///
+  /// In en, this message translates to:
+  /// **'Bubble Pop'**
+  String get settingsGameBubblePop;
+
+  /// No description provided for @settingsGameShapeSorter.
+  ///
+  /// In en, this message translates to:
+  /// **'Shape Sorter'**
+  String get settingsGameShapeSorter;
+
+  /// No description provided for @settingsGameFingerPaint.
+  ///
+  /// In en, this message translates to:
+  /// **'Finger Paint'**
+  String get settingsGameFingerPaint;
+
+  /// No description provided for @settingsGameDriveVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'Drive'**
+  String get settingsGameDriveVehicle;
+
+  /// No description provided for @settingsAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get settingsAbout;
+
+  /// No description provided for @settingsVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String settingsVersion(String version);
+
+  /// No description provided for @settingsSupportEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get settingsSupportEmail;
+
+  /// No description provided for @settingsPrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get settingsPrivacyPolicy;
+
+  /// No description provided for @settingsTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms'**
+  String get settingsTerms;
+
+  /// No description provided for @placeholderGameMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This game is coming soon.'**
+  String get placeholderGameMessage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

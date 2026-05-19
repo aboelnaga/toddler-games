@@ -1,15 +1,47 @@
 {
   "@@locale": "en",
   "appTitle": "Toddler Games",
-  "@appTitle": {
-    "description": "App display name shown in store and on splash"
-  },
+  "@appTitle": {},
+
   "homeTitle": "Home",
-  "@homeTitle": {
-    "description": "Title for the home screen (hidden in v1; tiles are images)"
-  },
   "settingsTitle": "Settings",
-  "@settingsTitle": {
-    "description": "Title for the parent settings screen"
-  }
+  "settingsForGrownUps": "For Grown-Ups",
+  "@settingsForGrownUps": {
+    "description": "Header on parent gate and settings"
+  },
+
+  "parentGatePrompt": "What is {a} + {b} = ?",
+  "@parentGatePrompt": {
+    "placeholders": {
+      "a": {"type": "int"},
+      "b": {"type": "int"}
+    }
+  },
+  "parentGateHelp": "Tap the answer",
+
+  "settingsLanguage": "Language",
+  "settingsLanguageArabic": "Egyptian Arabic",
+  "settingsLanguageEnglish": "English",
+
+  "settingsSound": "Sound",
+  "settingsSoundOn": "On",
+  "settingsSoundOff": "Off",
+
+  "settingsGames": "Games",
+  "settingsGameZoo": "Zoo",
+  "settingsGameBubblePop": "Bubble Pop",
+  "settingsGameShapeSorter": "Shape Sorter",
+  "settingsGameFingerPaint": "Finger Paint",
+  "settingsGameDriveVehicle": "Drive",
+
+  "settingsAbout": "About",
+  "settingsVersion": "Version {version}",
+  "@settingsVersion": {
+    "placeholders": {"version": {"type": "String"}}
+  },
+  "settingsSupportEmail": "Support",
+  "settingsPrivacyPolicy": "Privacy Policy",
+  "settingsTerms": "Terms",
+
+  "placeholderGameMessage": "This game is coming soon."
 }
