@@ -1,7 +1,15 @@
 {
-    "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
-    }
+  "@@locale": "en",
+  "appTitle": "Toddler Games",
+  "@appTitle": {
+    "description": "App display name shown in store and on splash"
+  },
+  "homeTitle": "Home",
+  "@homeTitle": {
+    "description": "Title for the home screen (hidden in v1; tiles are images)"
+  },
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "Title for the parent settings screen"
+  }
 }

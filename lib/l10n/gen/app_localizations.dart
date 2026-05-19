@@ -7,8 +7,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_ar.dart';
 import 'app_localizations_en.dart';
-import 'app_localizations_es.dart';
 
 // ignore_for_file: type=lint
 
@@ -93,15 +93,27 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
-    Locale('en'),
-    Locale('es')
+    Locale('ar'),
+    Locale('en')
   ];
 
-  /// Text shown in the AppBar of the Counter Page
+  /// App display name shown in store and on splash
   ///
   /// In en, this message translates to:
-  /// **'Counter'**
-  String get counterAppBarTitle;
+  /// **'Toddler Games'**
+  String get appTitle;
+
+  /// Title for the home screen (hidden in v1; tiles are images)
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get homeTitle;
+
+  /// Title for the parent settings screen
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -113,7 +125,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'es'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['ar', 'en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -124,8 +136,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'ar': return AppLocalizationsAr();
     case 'en': return AppLocalizationsEn();
-    case 'es': return AppLocalizationsEs();
   }
 
   throw FlutterError(

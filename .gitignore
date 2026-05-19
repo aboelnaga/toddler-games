@@ -80,6 +80,9 @@ Runner/GeneratedPluginRegistrant.*
 # Lefthook (local config)
 .lefthook-local.yml
 
+# Custom lint server log
+custom_lint.log
+
 # Environment files (none expected, but defensive)
 .env
 .env.*
