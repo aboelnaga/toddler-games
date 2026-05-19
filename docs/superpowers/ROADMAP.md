@@ -1,6 +1,6 @@
 # Roadmap & Status
 
-**Last updated:** 2026-05-19
+**Last updated:** 2026-05-19 (Slice 1 complete)
 **Purpose:** orientation for any session (human or agent) picking up this project. Read this first.
 
 ---
@@ -35,7 +35,7 @@ We build the app as a series of small, independently shippable slices. Each slic
 | # | Slice | Plan | Status | Output |
 |---|---|---|---|---|
 | 0 | Project scaffold + tooling | [plan](plans/2026-05-11-slice-0-scaffold-and-tooling.md) | **Complete** (tag: `slice-0-complete`) | Empty app runs on iOS sim + Android emu, with Riverpod 3, go_router 17, lint stack, codegen, CI, lefthook, AI rules, compliance hardening |
-| 1 | App shell | [plan](plans/2026-05-11-slice-1-app-shell.md) | **Planned, ready to execute** | Home icon grid (placeholder tiles) + parent gate + settings, end-to-end navigable |
+| 1 | App shell | [plan](plans/2026-05-11-slice-1-app-shell.md) | **Complete** (tag: `slice-1-complete`) | Home icon grid (placeholder tiles) + parent gate + settings, end-to-end navigable; 56 tests (50 widget + 6 golden) |
 | 2 | Game 1: Tap-to-Discover Zoo | not yet written | **Plan pending** | First real game vertical: AudioService, voice playback, scene rendering, tap-react animations |
 | 3 | Game 2: Bubble Pop | not yet written | **Skeleton pending** | Many moving sprites tap-to-pop |
 | 4 | Game 3: Shape Sorter | not yet written | **Skeleton pending** | Drag-and-drop with forgiving snap |
@@ -146,8 +146,8 @@ pubspec.yaml                                      ← deps + asset registration
 
 If you (or any future agent) are picking up here cold and want to make progress:
 
-- **Execute Slice 1** — the app shell is fully planned and ready. Run it next.
-- **Write Slice 2 plan** if you want to have it ready before starting Slice 2 (you now have a real codebase to point at).
-- **Write Slices 3–7 skeleton plans** in parallel with Slice 1 execution if time allows.
+- **Write Slice 2 plan** — Game 1 (Tap-to-Discover Zoo): AudioService, `audioplayers`, animal scene, tap-react animations, voice clips in both locales.
+- **Execute Slice 2** once the plan is written.
+- **Write Slices 3–7 skeleton plans** in parallel if time allows.
 
 The brainstorming and planning loop is done unless requirements change. Implementation is the next phase.
