@@ -1,8 +1,15 @@
-include:
-  - package:very_good_analysis/analysis_options.yaml
+include: package:very_good_analysis/analysis_options.yaml
+
 analyzer:
+  plugins:
+    - custom_lint
   exclude:
-    - lib/l10n/gen/*
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/generated/**"
+    - "**/l10n/gen/**"
+    - "**/l10n/generated/**"
+
 linter:
   rules:
     public_member_api_docs: false
