@@ -14,9 +14,13 @@ import 'package:toddler_games/core/gate/parent_gate_screen.dart';
 import 'package:toddler_games/core/settings/settings_notifier.dart';
 import 'package:toddler_games/core/settings/settings_service.dart';
 import 'package:toddler_games/core/theme/app_theme.dart';
+import 'package:toddler_games/features/games/finger_paint/finger_paint_screen.dart';
+import 'package:toddler_games/features/games/finger_paint/paint_notifier.dart';
 import 'package:toddler_games/features/home/home_screen.dart';
 import 'package:toddler_games/features/settings/settings_screen.dart';
 import 'package:toddler_games/l10n/gen/app_localizations.dart';
+
+import '../helpers/audio_test_helper.dart';
 
 Widget _wrap(
   Widget child, {
@@ -65,6 +69,8 @@ final _fixedProblem = ParentGateProblem(
 );
 
 void main() {
+  setUpAll(registerAudioFakes);
+
   group('HomeScreen', () {
     testWidgets('en golden', (tester) async {
       _setPhoneViewport(tester);
@@ -191,6 +197,68 @@ void main() {
       await expectLater(
         find.byType(SettingsScreen),
         matchesGoldenFile('goldens/settings_ar.png'),
+      );
+    });
+  });
+
+  group('FingerPaintScreen', () {
+    testWidgets('en golden', (tester) async {
+      _setPhoneViewport(tester);
+      addTearDown(tester.view.reset);
+
+      final container = await _makeContainer();
+      addTearDown(container.dispose);
+
+      final paintContainer = ProviderContainer(
+        parent: container,
+        overrides: [
+          paintProvider.overrideWith(PaintNotifier.new),
+        ],
+      );
+      addTearDown(paintContainer.dispose);
+
+      await tester.pumpWidget(
+        _wrap(
+          const FingerPaintScreen(),
+          locale: _en,
+          container: paintContainer,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await expectLater(
+        find.byType(FingerPaintScreen),
+        matchesGoldenFile('goldens/finger_paint_en.png'),
+      );
+    });
+
+    testWidgets('ar golden', (tester) async {
+      _setPhoneViewport(tester);
+      addTearDown(tester.view.reset);
+
+      final container = await _makeContainer();
+      addTearDown(container.dispose);
+
+      final paintContainer = ProviderContainer(
+        parent: container,
+        overrides: [
+          paintProvider.overrideWith(PaintNotifier.new),
+        ],
+      );
+      addTearDown(paintContainer.dispose);
+
+      await tester.pumpWidget(
+        _wrap(
+          const FingerPaintScreen(),
+          locale: _ar,
+          container: paintContainer,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await expectLater(
+        find.byType(FingerPaintScreen),
+        matchesGoldenFile('goldens/finger_paint_ar.png'),
       );
     });
   });

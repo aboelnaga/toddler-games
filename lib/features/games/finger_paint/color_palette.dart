@@ -25,38 +25,41 @@ class ColorPalette extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: kPaletteColors.map((color) {
-        final isSelected = color == selectedColor;
-        return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: DesignTokens.space1,
-          ),
-          child: GestureDetector(
-            onTap: () => onColorSelected(color),
-            child: Container(
-              width: 52,
-              height: 52,
-              decoration: BoxDecoration(
-                color: color,
-                shape: BoxShape.circle,
-                border: isSelected
-                    ? Border.all(color: Colors.white, width: 3)
-                    : Border.all(color: Colors.black26),
-                boxShadow: isSelected
-                    ? [
-                        const BoxShadow(
-                          color: Colors.black38,
-                          blurRadius: 6,
-                        ),
-                      ]
-                    : null,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: kPaletteColors.map((color) {
+          final isSelected = color == selectedColor;
+          return Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: DesignTokens.space1,
+            ),
+            child: GestureDetector(
+              onTap: () => onColorSelected(color),
+              child: Container(
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  color: color,
+                  shape: BoxShape.circle,
+                  border: isSelected
+                      ? Border.all(color: Colors.white, width: 3)
+                      : Border.all(color: Colors.black26),
+                  boxShadow: isSelected
+                      ? [
+                          const BoxShadow(
+                            color: Colors.black38,
+                            blurRadius: 6,
+                          ),
+                        ]
+                      : null,
+                ),
               ),
             ),
-          ),
-        );
-      }).toList(),
+          );
+        }).toList(),
+      ),
     );
   }
 }
