@@ -1,6 +1,6 @@
 # Roadmap & Status
 
-**Last updated:** 2026-05-19 (Slice 1 complete)
+**Last updated:** 2026-05-19 (Slice 2 complete)
 **Purpose:** orientation for any session (human or agent) picking up this project. Read this first.
 
 ---
@@ -36,7 +36,7 @@ We build the app as a series of small, independently shippable slices. Each slic
 |---|---|---|---|---|
 | 0 | Project scaffold + tooling | [plan](plans/2026-05-11-slice-0-scaffold-and-tooling.md) | **Complete** (tag: `slice-0-complete`) | Empty app runs on iOS sim + Android emu, with Riverpod 3, go_router 17, lint stack, codegen, CI, lefthook, AI rules, compliance hardening |
 | 1 | App shell | [plan](plans/2026-05-11-slice-1-app-shell.md) | **Complete** (tag: `slice-1-complete`) | Home icon grid (placeholder tiles) + parent gate + settings, end-to-end navigable; 56 tests (50 widget + 6 golden) |
-| 2 | Game 4: Finger Paint | [plan](plans/2026-05-19-slice-2-finger-paint.md) | **Plan ready, execute next** | AudioService infra + CustomPainter canvas, color palette, magic rainbow brush, long-press-to-clear |
+| 2 | Game 4: Finger Paint | [plan](plans/2026-05-19-slice-2-finger-paint.md) | **Complete** (tag: `slice-2-complete`) | AudioService infra + CustomPainter canvas, color palette, magic rainbow brush, long-press-to-clear; goldens in both locales; 73 tests |
 | 3 | Game 2: Bubble Pop | not yet written | **Skeleton pending** | Many moving sprites tap-to-pop |
 | 4 | Game 3: Shape Sorter | not yet written | **Skeleton pending** | Drag-and-drop with forgiving snap |
 | 5 | Game 4: Finger Paint | not yet written | **Skeleton pending** | CustomPainter canvas + magic-brush effects |
@@ -146,7 +146,8 @@ pubspec.yaml                                      ← deps + asset registration
 
 If you (or any future agent) are picking up here cold and want to make progress:
 
-- **Execute Slice 2** — Finger Paint plan is written and ready at `docs/superpowers/plans/2026-05-19-slice-2-finger-paint.md`. 16 tasks, ~4–6 hours.
-- **Write Slices 3–7 skeleton plans** in parallel if time allows.
+- **Execute Slice 3** — Bubble Pop game (many moving sprites, tap-to-pop). Write the plan first, then execute.
+- **Write Slices 3–7 skeleton plans** if not already done.
 
-The brainstorming and planning loop is done unless requirements change. Implementation is the next phase.
+Slice 2 (Finger Paint) is complete. Navigate to `/game/finger_paint` to play it.
+The app has 73 tests, 8 golden snapshots, full lint compliance, and AudioService infrastructure ready for any game.
