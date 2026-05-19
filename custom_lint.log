@@ -1,0 +1,88 @@
+[custom_lint] 2026-05-19T10:24:46.755944 Error: Couldn't resolve the package 'custom_lint_builder' in 'package:custom_lint_builder/src/channel.dart'.
+[custom_lint] 2026-05-19T10:24:46.755944 lib/custom_lint_client.dart:3:8: Error: Not found: 'package:custom_lint_builder/src/channel.dart'
+[custom_lint] 2026-05-19T10:24:46.755944 import 'package:custom_lint_builder/src/channel.dart';
+[custom_lint] 2026-05-19T10:24:46.755944        ^
+[custom_lint] 2026-05-19T10:24:46.755944 lib/custom_lint_client.dart:4:8: Error: Error when reading '/Users/mohamedaboelnaga/.pub-cache/hosted/pub.dev/riverpod_lint-3.1.3/lib/riverpod_lint.dart': No such file or directory
+[custom_lint] 2026-05-19T10:24:46.755944 import 'package:riverpod_lint/riverpod_lint.dart' as riverpod_lint;
+[custom_lint] 2026-05-19T10:24:46.755944        ^
+[custom_lint] 2026-05-19T10:24:46.755944 lib/custom_lint_client.dart:16:37: Error: Undefined name 'createPlugin'.
+[custom_lint] 2026-05-19T10:24:46.755944     {'riverpod_lint': riverpod_lint.createPlugin,
+[custom_lint] 2026-05-19T10:24:46.755944                                     ^^^^^^^^^^^^
+[custom_lint] 2026-05-19T10:24:46.755944 lib/custom_lint_client.dart:11:3: Error: Method not found: 'runSocket'.
+[custom_lint] 2026-05-19T10:24:46.755944   runSocket(
+[custom_lint] 2026-05-19T10:24:46.755944   ^^^^^^^^^
+[custom_lint] 2026-05-19T10:24:46.755944
+[custom_lint] 2026-05-19T10:24:46.755944
+Failed to start pluginsThe request analysis.setContextRoots failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+Bad state: Failed to start the plugins.
+at:
+#0      SocketCustomLintServerToClientChannel._checkInitializationFail.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:223:11)
+<asynchronous suspension>
+#1      Future.any.onValue (dart:async/future.dart:637:5)
+<asynchronous suspension>
+
+[custom_lint] 2026-05-19T10:24:46.766371 _PrettyRequestFailure: {"code":"PLUGIN_ERROR","message":"Bad state: Failed to start the plugins.","stackTrace":"#0      SocketCustomLintServerToClientChannel._checkInitializationFail.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:223:11)\n<asynchronous suspension>\n#1      Future.any.onValue (dart:async/future.dart:637:5)\n<asynchronous suspension>\n"}
+[custom_lint] 2026-05-19T10:24:46.766371 #0      ChannelBase.sendRequest (package:custom_lint/src/server_isolate_channel.dart:82:7)
+[custom_lint] 2026-05-19T10:24:46.766371 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:46.766371 #1      CustomLintRunner.initialize.<anonymous closure> (package:custom_lint/src/runner.dart:41:5)
+[custom_lint] 2026-05-19T10:24:46.766371 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:46.766371 #2      _runServer.<anonymous closure> (package:custom_lint/custom_lint.dart:96:7)
+[custom_lint] 2026-05-19T10:24:46.766371 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:46.766371 #3      _AsyncCompleter.complete (dart:async/future_impl.dart:96:3)
+[custom_lint] 2026-05-19T10:24:46.766371 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:46.766371 #4      _runServer.<anonymous closure> (package:custom_lint/custom_lint.dart:126:19)
+[custom_lint] 2026-05-19T10:24:46.766371 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:46.766371 #5      _runServer (package:custom_lint/custom_lint.dart:86:3)
+[custom_lint] 2026-05-19T10:24:46.766371 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:46.766371 #6      customLint (package:custom_lint/custom_lint.dart:50:5)
+[custom_lint] 2026-05-19T10:24:46.766371 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:46.766371 #7      entrypoint (file:///Users/mohamedaboelnaga/.pub-cache/hosted/pub.dev/custom_lint-0.8.1/bin/custom_lint.dart:68:3)
+[custom_lint] 2026-05-19T10:24:46.766371 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:46.766371 #8      main (file:///Users/mohamedaboelnaga/.pub-cache/hosted/pub.dev/custom_lint-0.8.1/bin/custom_lint.dart:80:5)
+[custom_lint] 2026-05-19T10:24:46.766371 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:46.766371
+[custom_lint] 2026-05-19T10:24:54.381647 Error: Couldn't resolve the package 'custom_lint_builder' in 'package:custom_lint_builder/src/channel.dart'.
+[custom_lint] 2026-05-19T10:24:54.381647 lib/custom_lint_client.dart:3:8: Error: Not found: 'package:custom_lint_builder/src/channel.dart'
+[custom_lint] 2026-05-19T10:24:54.381647 import 'package:custom_lint_builder/src/channel.dart';
+[custom_lint] 2026-05-19T10:24:54.381647        ^
+[custom_lint] 2026-05-19T10:24:54.381647 lib/custom_lint_client.dart:4:8: Error: Error when reading '/Users/mohamedaboelnaga/.pub-cache/hosted/pub.dev/riverpod_lint-3.1.3/lib/riverpod_lint.dart': No such file or directory
+[custom_lint] 2026-05-19T10:24:54.381647 import 'package:riverpod_lint/riverpod_lint.dart' as riverpod_lint;
+[custom_lint] 2026-05-19T10:24:54.381647        ^
+[custom_lint] 2026-05-19T10:24:54.381647 lib/custom_lint_client.dart:16:37: Error: Undefined name 'createPlugin'.
+[custom_lint] 2026-05-19T10:24:54.381647     {'riverpod_lint': riverpod_lint.createPlugin,
+[custom_lint] 2026-05-19T10:24:54.381647                                     ^^^^^^^^^^^^
+[custom_lint] 2026-05-19T10:24:54.381647 lib/custom_lint_client.dart:11:3: Error: Method not found: 'runSocket'.
+[custom_lint] 2026-05-19T10:24:54.381647   runSocket(
+[custom_lint] 2026-05-19T10:24:54.381647   ^^^^^^^^^
+[custom_lint] 2026-05-19T10:24:54.381647
+[custom_lint] 2026-05-19T10:24:54.381647
+Failed to start pluginsThe request analysis.setContextRoots failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+Bad state: Failed to start the plugins.
+at:
+#0      SocketCustomLintServerToClientChannel._checkInitializationFail.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:223:11)
+<asynchronous suspension>
+#1      Future.any.onValue (dart:async/future.dart:637:5)
+<asynchronous suspension>
+
+[custom_lint] 2026-05-19T10:24:54.393345 _PrettyRequestFailure: {"code":"PLUGIN_ERROR","message":"Bad state: Failed to start the plugins.","stackTrace":"#0      SocketCustomLintServerToClientChannel._checkInitializationFail.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:223:11)\n<asynchronous suspension>\n#1      Future.any.onValue (dart:async/future.dart:637:5)\n<asynchronous suspension>\n"}
+[custom_lint] 2026-05-19T10:24:54.393345 #0      ChannelBase.sendRequest (package:custom_lint/src/server_isolate_channel.dart:82:7)
+[custom_lint] 2026-05-19T10:24:54.393345 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:54.393345 #1      CustomLintRunner.initialize.<anonymous closure> (package:custom_lint/src/runner.dart:41:5)
+[custom_lint] 2026-05-19T10:24:54.393345 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:54.393345 #2      _runServer.<anonymous closure> (package:custom_lint/custom_lint.dart:96:7)
+[custom_lint] 2026-05-19T10:24:54.393345 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:54.393345 #3      _AsyncCompleter.complete (dart:async/future_impl.dart:96:3)
+[custom_lint] 2026-05-19T10:24:54.393345 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:54.393345 #4      _runServer.<anonymous closure> (package:custom_lint/custom_lint.dart:126:19)
+[custom_lint] 2026-05-19T10:24:54.393345 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:54.393345 #5      _runServer (package:custom_lint/custom_lint.dart:86:3)
+[custom_lint] 2026-05-19T10:24:54.393345 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:54.393345 #6      customLint (package:custom_lint/custom_lint.dart:50:5)
+[custom_lint] 2026-05-19T10:24:54.393345 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:54.393345 #7      entrypoint (file:///Users/mohamedaboelnaga/.pub-cache/hosted/pub.dev/custom_lint-0.8.1/bin/custom_lint.dart:68:3)
+[custom_lint] 2026-05-19T10:24:54.393345 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:54.393345 #8      main (file:///Users/mohamedaboelnaga/.pub-cache/hosted/pub.dev/custom_lint-0.8.1/bin/custom_lint.dart:80:5)
+[custom_lint] 2026-05-19T10:24:54.393345 <asynchronous suspension>
+[custom_lint] 2026-05-19T10:24:54.393345
