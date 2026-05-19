@@ -6,6 +6,7 @@ import 'package:toddler_games/core/routing/router.dart';
 import 'package:toddler_games/core/settings/settings_notifier.dart';
 import 'package:toddler_games/core/settings/settings_service.dart';
 import 'package:toddler_games/features/home/game_tile.dart';
+import 'package:toddler_games/features/settings/settings_screen.dart';
 import 'package:toddler_games/l10n/gen/app_localizations.dart';
 
 void main() {
@@ -17,6 +18,7 @@ void main() {
     container = ProviderContainer(
       overrides: [
         settingsServiceProvider.overrideWithValue(SettingsService(prefs)),
+        versionProvider.overrideWith((ref) => Future.value('1.0.0')),
       ],
     );
     addTearDown(container.dispose);
@@ -59,7 +61,7 @@ void main() {
       router.go('/settings');
       await tester.pumpAndSettle();
 
-      expect(find.text('Settings (scaffold)'), findsOneWidget);
+      expect(find.byType(SettingsScreen), findsOneWidget);
     });
   });
 }
