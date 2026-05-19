@@ -9,6 +9,7 @@ import 'package:toddler_games/core/gate/parent_gate_problem.dart';
 import 'package:toddler_games/core/gate/parent_gate_screen.dart';
 import 'package:toddler_games/core/settings/settings_notifier.dart';
 import 'package:toddler_games/features/games/_placeholder/placeholder_game_screen.dart';
+import 'package:toddler_games/features/games/finger_paint/finger_paint_screen.dart';
 import 'package:toddler_games/features/home/home_screen.dart';
 import 'package:toddler_games/features/settings/settings_screen.dart';
 
@@ -24,6 +25,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/game/:id',
         builder: (context, state) {
           final id = state.pathParameters['id']!;
+          if (id == 'finger_paint') return const FingerPaintScreen();
           return PlaceholderGameScreen(gameId: id);
         },
       ),
