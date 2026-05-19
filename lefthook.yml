@@ -1,0 +1,21 @@
+pre-commit:
+  parallel: true
+  commands:
+    format:
+      glob: "*.dart"
+      run: dart format --set-exit-if-changed {staged_files}
+    analyze:
+      glob: "*.dart"
+      run: flutter analyze --fatal-infos
+
+pre-push:
+  parallel: false
+  commands:
+    test:
+      run: flutter test --exclude-tags golden
+    custom-lint:
+      run: dart run custom_lint
+    forbidden-sdks:
+      run: ./scripts/check_forbidden_sdks.sh
+    internet-permission:
+      run: ./scripts/check_no_internet_permission.sh
