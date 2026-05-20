@@ -20,6 +20,7 @@ import 'package:toddler_games/features/games/bubble_pop/models/bubble.dart';
 import 'package:toddler_games/features/games/bubble_pop/models/bubble_pop_state.dart';
 import 'package:toddler_games/features/games/finger_paint/finger_paint_screen.dart';
 import 'package:toddler_games/features/games/finger_paint/paint_notifier.dart';
+import 'package:toddler_games/features/games/shape_sorter/shape_sorter_screen.dart';
 import 'package:toddler_games/features/home/home_screen.dart';
 import 'package:toddler_games/features/settings/settings_screen.dart';
 import 'package:toddler_games/l10n/gen/app_localizations.dart';
@@ -325,6 +326,52 @@ void main() {
       await expectLater(
         find.byType(BubblePopScreen),
         matchesGoldenFile('goldens/bubble_pop_ar.png'),
+      );
+    });
+  });
+
+  group('ShapeSorterScreen', () {
+    testWidgets('en golden', (tester) async {
+      _setPhoneViewport(tester);
+      addTearDown(tester.view.reset);
+
+      final container = await _makeContainer();
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _wrap(
+          const ShapeSorterScreen(),
+          locale: _en,
+          container: container,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await expectLater(
+        find.byType(ShapeSorterScreen),
+        matchesGoldenFile('goldens/shape_sorter_en.png'),
+      );
+    });
+
+    testWidgets('ar golden', (tester) async {
+      _setPhoneViewport(tester);
+      addTearDown(tester.view.reset);
+
+      final container = await _makeContainer();
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _wrap(
+          const ShapeSorterScreen(),
+          locale: _ar,
+          container: container,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await expectLater(
+        find.byType(ShapeSorterScreen),
+        matchesGoldenFile('goldens/shape_sorter_ar.png'),
       );
     });
   });
