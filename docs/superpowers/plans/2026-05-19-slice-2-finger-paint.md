@@ -1,6 +1,6 @@
 # Finger Paint Game (Slice 2) Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Build the Finger Paint mini-game end-to-end — an AudioService backed by `audioplayers`, a `CustomPainter` drawing canvas, color palette, magic rainbow brush, long-press-to-clear, and router wiring — so that navigating to `/game/finger_paint` presents a fully playable drawing experience in both ar-EG and en locales.
 
@@ -77,7 +77,7 @@ test/
 **Files:**
 - Modify: `pubspec.yaml`
 
-- [ ] **Step 1: Add the dependency**
+- [x] **Step 1: Add the dependency**
 
 Open `pubspec.yaml`. Under the `dependencies:` block, after `url_launcher: ^6.3.0`, add:
 
@@ -105,7 +105,7 @@ dependencies:
   url_launcher: ^6.3.0
 ```
 
-- [ ] **Step 2: Fetch the package**
+- [x] **Step 2: Fetch the package**
 
 ```bash
 flutter pub get
@@ -113,7 +113,7 @@ flutter pub get
 
 Expected output: `Got dependencies!` (no errors). If `audioplayers ^6.0.0` is unavailable, run `flutter pub outdated` to find the current stable version and adjust the constraint.
 
-- [ ] **Step 3: Verify the dependency is resolved**
+- [x] **Step 3: Verify the dependency is resolved**
 
 ```bash
 grep "audioplayers" pubspec.lock
@@ -121,7 +121,7 @@ grep "audioplayers" pubspec.lock
 
 Expected: a line like `  audioplayers: 6.x.x` confirming resolution.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add pubspec.yaml pubspec.lock
@@ -135,7 +135,7 @@ git commit -m "chore: add audioplayers ^6.0.0 dependency"
 **Files:**
 - Create: `test/core/audio/audio_service_test.dart`
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 Create `test/core/audio/audio_service_test.dart`:
 
@@ -201,7 +201,7 @@ void main() {
 }
 ```
 
-- [ ] **Step 2: Run tests to confirm they fail**
+- [x] **Step 2: Run tests to confirm they fail**
 
 ```bash
 flutter test test/core/audio/audio_service_test.dart --reporter expanded
@@ -216,7 +216,7 @@ Expected: compilation error — `audio_service.dart` does not exist yet.
 **Files:**
 - Create: `lib/core/audio/audio_service.dart`
 
-- [ ] **Step 1: Create the implementation**
+- [x] **Step 1: Create the implementation**
 
 Create `lib/core/audio/audio_service.dart`:
 
@@ -312,7 +312,7 @@ final audioServiceProvider = Provider<AudioService>((ref) {
 });
 ```
 
-- [ ] **Step 2: Run tests and confirm they pass**
+- [x] **Step 2: Run tests and confirm they pass**
 
 ```bash
 flutter test test/core/audio/audio_service_test.dart --reporter expanded
@@ -320,7 +320,7 @@ flutter test test/core/audio/audio_service_test.dart --reporter expanded
 
 Expected: 5 tests pass. The `playSfx('nonexistent_file_that_does_not_exist')` test may take a moment since `audioplayers` tries to load the asset; it must complete without throwing.
 
-- [ ] **Step 3: Run full analyze**
+- [x] **Step 3: Run full analyze**
 
 ```bash
 flutter analyze lib/core/audio/audio_service.dart
@@ -328,7 +328,7 @@ flutter analyze lib/core/audio/audio_service.dart
 
 Expected: No issues found.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add lib/core/audio/audio_service.dart \
@@ -345,7 +345,7 @@ git commit -m "feat: add AudioService wrapping audioplayers with silent error sw
 
 **Note:** The Stroke model is pure data with no logic of its own. Its correctness is validated implicitly through `PaintNotifier` tests. We write the notifier tests first (they will fail because neither model nor notifier exists), then implement in Task 5–6.
 
-- [ ] **Step 1: Create the notifier test file**
+- [x] **Step 1: Create the notifier test file**
 
 Create `test/features/games/finger_paint/paint_notifier_test.dart`:
 
@@ -495,7 +495,7 @@ void main() {
 }
 ```
 
-- [ ] **Step 2: Run tests to confirm they fail**
+- [x] **Step 2: Run tests to confirm they fail**
 
 ```bash
 flutter test test/features/games/finger_paint/paint_notifier_test.dart \
@@ -512,7 +512,7 @@ Expected: compilation error — `paint_state.dart` and `paint_notifier.dart` do 
 - Create: `lib/features/games/finger_paint/models/stroke.dart`
 - Create: `lib/features/games/finger_paint/models/paint_state.dart`
 
-- [ ] **Step 1: Create `stroke.dart`**
+- [x] **Step 1: Create `stroke.dart`**
 
 Create `lib/features/games/finger_paint/models/stroke.dart`:
 
@@ -538,7 +538,7 @@ class Stroke {
 }
 ```
 
-- [ ] **Step 2: Create `paint_state.dart`**
+- [x] **Step 2: Create `paint_state.dart`**
 
 Create `lib/features/games/finger_paint/models/paint_state.dart`:
 
@@ -595,7 +595,7 @@ class PaintState {
 
 **Note on `copyWith` design:** `ui.Image?` cannot be set back to `null` via the normal `??` pattern since `null` is a valid target value. The `clearBackgroundImage` flag solves this without breaking the immutability pattern.
 
-- [ ] **Step 3: Verify compilation (no tests yet — models are pure data)**
+- [x] **Step 3: Verify compilation (no tests yet — models are pure data)**
 
 ```bash
 flutter analyze \
@@ -612,7 +612,7 @@ Expected: No issues found.
 **Files:**
 - Create: `lib/features/games/finger_paint/paint_notifier.dart`
 
-- [ ] **Step 1: Create `paint_notifier.dart`**
+- [x] **Step 1: Create `paint_notifier.dart`**
 
 Create `lib/features/games/finger_paint/paint_notifier.dart`:
 
@@ -688,7 +688,7 @@ final paintProvider = NotifierProvider<PaintNotifier, PaintState>(
 );
 ```
 
-- [ ] **Step 2: Run the notifier tests**
+- [x] **Step 2: Run the notifier tests**
 
 ```bash
 flutter test test/features/games/finger_paint/paint_notifier_test.dart \
@@ -697,7 +697,7 @@ flutter test test/features/games/finger_paint/paint_notifier_test.dart \
 
 Expected: all tests pass.
 
-- [ ] **Step 3: Run analyze**
+- [x] **Step 3: Run analyze**
 
 ```bash
 flutter analyze lib/features/games/finger_paint/
@@ -705,7 +705,7 @@ flutter analyze lib/features/games/finger_paint/
 
 Expected: No issues found.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add \
@@ -723,7 +723,7 @@ git commit -m "feat: add Stroke, PaintState models and PaintNotifier with full t
 **Files:**
 - Create: `lib/features/games/finger_paint/paint_canvas.dart`
 
-- [ ] **Step 1: Create `paint_canvas.dart`**
+- [x] **Step 1: Create `paint_canvas.dart`**
 
 Create `lib/features/games/finger_paint/paint_canvas.dart`:
 
@@ -855,7 +855,7 @@ class _PaintCanvasPainter extends CustomPainter {
 }
 ```
 
-- [ ] **Step 2: Run analyze**
+- [x] **Step 2: Run analyze**
 
 ```bash
 flutter analyze lib/features/games/finger_paint/paint_canvas.dart
@@ -870,7 +870,7 @@ Expected: No issues found.
 **Files:**
 - Create: `lib/features/games/finger_paint/color_palette.dart`
 
-- [ ] **Step 1: Create `color_palette.dart`**
+- [x] **Step 1: Create `color_palette.dart`**
 
 Create `lib/features/games/finger_paint/color_palette.dart`:
 
@@ -943,7 +943,7 @@ class ColorPalette extends StatelessWidget {
 }
 ```
 
-- [ ] **Step 2: Run analyze**
+- [x] **Step 2: Run analyze**
 
 ```bash
 flutter analyze lib/features/games/finger_paint/color_palette.dart
@@ -958,7 +958,7 @@ Expected: No issues found.
 **Files:**
 - Create: `lib/features/games/finger_paint/clear_button.dart`
 
-- [ ] **Step 1: Create `clear_button.dart`**
+- [x] **Step 1: Create `clear_button.dart`**
 
 Create `lib/features/games/finger_paint/clear_button.dart`:
 
@@ -1040,7 +1040,7 @@ class _ClearButtonState extends State<ClearButton>
 }
 ```
 
-- [ ] **Step 2: Run analyze**
+- [x] **Step 2: Run analyze**
 
 ```bash
 flutter analyze lib/features/games/finger_paint/clear_button.dart
@@ -1055,7 +1055,7 @@ Expected: No issues found.
 **Files:**
 - Create: `lib/features/games/finger_paint/magic_mode_button.dart`
 
-- [ ] **Step 1: Create `magic_mode_button.dart`**
+- [x] **Step 1: Create `magic_mode_button.dart`**
 
 Create `lib/features/games/finger_paint/magic_mode_button.dart`:
 
@@ -1108,7 +1108,7 @@ class MagicModeButton extends StatelessWidget {
 }
 ```
 
-- [ ] **Step 2: Run analyze**
+- [x] **Step 2: Run analyze**
 
 ```bash
 flutter analyze lib/features/games/finger_paint/magic_mode_button.dart
@@ -1123,7 +1123,7 @@ Expected: No issues found.
 **Files:**
 - Create: `test/features/games/finger_paint/finger_paint_screen_test.dart`
 
-- [ ] **Step 1: Write the failing widget tests**
+- [x] **Step 1: Write the failing widget tests**
 
 Create `test/features/games/finger_paint/finger_paint_screen_test.dart`:
 
@@ -1262,7 +1262,7 @@ void main() {
 }
 ```
 
-- [ ] **Step 2: Run tests to confirm they fail**
+- [x] **Step 2: Run tests to confirm they fail**
 
 ```bash
 flutter test test/features/games/finger_paint/finger_paint_screen_test.dart \
@@ -1278,7 +1278,7 @@ Expected: compilation error — `finger_paint_screen.dart` does not exist yet.
 **Files:**
 - Create: `lib/features/games/finger_paint/finger_paint_screen.dart`
 
-- [ ] **Step 1: Create `finger_paint_screen.dart`**
+- [x] **Step 1: Create `finger_paint_screen.dart`**
 
 Create `lib/features/games/finger_paint/finger_paint_screen.dart`:
 
@@ -1445,7 +1445,7 @@ class _PaletteCard extends StatelessWidget {
 }
 ```
 
-- [ ] **Step 2: Run the widget tests**
+- [x] **Step 2: Run the widget tests**
 
 ```bash
 flutter test test/features/games/finger_paint/finger_paint_screen_test.dart \
@@ -1454,7 +1454,7 @@ flutter test test/features/games/finger_paint/finger_paint_screen_test.dart \
 
 Expected: all 7 tests pass.
 
-- [ ] **Step 3: Run analyze over the full feature folder**
+- [x] **Step 3: Run analyze over the full feature folder**
 
 ```bash
 flutter analyze lib/features/games/finger_paint/
@@ -1462,7 +1462,7 @@ flutter analyze lib/features/games/finger_paint/
 
 Expected: No issues found.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add \
@@ -1482,7 +1482,7 @@ git commit -m "feat: add FingerPaintScreen, PaintCanvas, ColorPalette, ClearButt
 **Files:**
 - Modify: `lib/core/routing/router.dart` (the `/game/:id` builder)
 
-- [ ] **Step 1: Add the `finger_paint` branch to the router**
+- [x] **Step 1: Add the `finger_paint` branch to the router**
 
 In `lib/core/routing/router.dart`, locate the `/game/:id` route (lines 24–29). Replace the builder with:
 
@@ -1511,7 +1511,7 @@ import 'package:toddler_games/features/games/finger_paint/finger_paint_screen.da
 import 'package:toddler_games/features/home/home_screen.dart';
 ```
 
-- [ ] **Step 2: Analyze the router file**
+- [x] **Step 2: Analyze the router file**
 
 ```bash
 flutter analyze lib/core/routing/router.dart
@@ -1519,7 +1519,7 @@ flutter analyze lib/core/routing/router.dart
 
 Expected: No issues found.
 
-- [ ] **Step 3: Smoke-test routing in the widget test for shell flow**
+- [x] **Step 3: Smoke-test routing in the widget test for shell flow**
 
 ```bash
 flutter test test/app/view/shell_flow_test.dart --reporter expanded
@@ -1527,7 +1527,7 @@ flutter test test/app/view/shell_flow_test.dart --reporter expanded
 
 Expected: existing shell_flow test passes (it doesn't touch the finger_paint route but it validates the router still works).
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add lib/core/routing/router.dart
@@ -1538,7 +1538,7 @@ git commit -m "feat: wire /game/finger_paint route to FingerPaintScreen"
 
 ## Task 14: Full test suite verification
 
-- [ ] **Step 1: Run all non-golden tests**
+- [x] **Step 1: Run all non-golden tests**
 
 ```bash
 flutter test --exclude-tags golden --reporter expanded
@@ -1546,7 +1546,7 @@ flutter test --exclude-tags golden --reporter expanded
 
 Expected: all tests pass. Typical count after this slice: ~65 tests (the existing 56 from Slice 1 + the new audio, notifier, and screen tests from this slice).
 
-- [ ] **Step 2: Run flutter analyze on the whole project**
+- [x] **Step 2: Run flutter analyze on the whole project**
 
 ```bash
 flutter analyze
@@ -1554,7 +1554,7 @@ flutter analyze
 
 Expected: No issues found.
 
-- [ ] **Step 3: Run dart format check**
+- [x] **Step 3: Run dart format check**
 
 ```bash
 dart format --set-exit-if-changed lib/ test/
@@ -1562,7 +1562,7 @@ dart format --set-exit-if-changed lib/ test/
 
 Expected: Exit code 0 (no unformatted files). If it reports changes, run `dart format lib/ test/` then re-check.
 
-- [ ] **Step 4: Run custom_lint**
+- [x] **Step 4: Run custom_lint**
 
 ```bash
 dart run custom_lint
@@ -1570,7 +1570,7 @@ dart run custom_lint
 
 Expected: No issues found.
 
-- [ ] **Step 5: Commit if any formatting-only changes were needed**
+- [x] **Step 5: Commit if any formatting-only changes were needed**
 
 Only commit if Step 3 required formatting changes:
 
@@ -1590,7 +1590,7 @@ git commit -m "style: dart format after slice-2 implementation"
 
 **Note on golden workflow:** The first run with `--update-goldens` generates the `.png` reference files. The second run (without the flag) is the pass/fail check. Both generated `.png` files must be committed.
 
-- [ ] **Step 1: Add the FingerPaintScreen golden group to `golden_test.dart`**
+- [x] **Step 1: Add the FingerPaintScreen golden group to `golden_test.dart`**
 
 Open `test/golden/golden_test.dart`. Add the following import alongside the existing ones (maintain alphabetical sort):
 
@@ -1666,7 +1666,7 @@ Append the following group at the end of `main()`, before the closing `}`:
   });
 ```
 
-- [ ] **Step 2: Generate the reference golden files (macOS only)**
+- [x] **Step 2: Generate the reference golden files (macOS only)**
 
 ```bash
 flutter test test/golden/golden_test.dart --tags golden --update-goldens
@@ -1676,7 +1676,7 @@ Expected: two new `.png` files appear in `test/golden/goldens/`:
 - `finger_paint_en.png`
 - `finger_paint_ar.png`
 
-- [ ] **Step 3: Run goldens without update flag to confirm they pass**
+- [x] **Step 3: Run goldens without update flag to confirm they pass**
 
 ```bash
 flutter test test/golden/golden_test.dart --tags golden --reporter expanded
@@ -1684,7 +1684,7 @@ flutter test test/golden/golden_test.dart --tags golden --reporter expanded
 
 Expected: all 8 golden tests pass (6 existing + 2 new).
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add \
@@ -1704,7 +1704,7 @@ git commit -m "test: add FingerPaintScreen golden tests for en and ar locales"
 
 **Voice clips** for this game are also absent. The Finger Paint game does not currently trigger voice playback — that is a future enhancement (e.g., "احلى رسمة!" celebration on first stroke, deferred to Slice 2b or a polish pass).
 
-- [ ] **Step 1: Run the complete non-golden test suite one final time**
+- [x] **Step 1: Run the complete non-golden test suite one final time**
 
 ```bash
 flutter test --exclude-tags golden
@@ -1712,13 +1712,13 @@ flutter test --exclude-tags golden
 
 Expected: all tests pass.
 
-- [ ] **Step 2: Tag the slice**
+- [x] **Step 2: Tag the slice**
 
 ```bash
 git tag slice-2-complete
 ```
 
-- [ ] **Step 3: Update the ROADMAP to reflect slice-2 complete**
+- [x] **Step 3: Update the ROADMAP to reflect slice-2 complete**
 
 Open `docs/superpowers/ROADMAP.md`. In the slice table, change the Slice 2 row from:
 
@@ -1734,12 +1734,28 @@ to:
 
 Also update the "Next action" section to point to Slice 3 (Bubble Pop) or the remaining skeleton plans.
 
-- [ ] **Step 4: Commit the roadmap update**
+- [x] **Step 4: Commit the roadmap update**
 
 ```bash
 git add docs/superpowers/ROADMAP.md
 git commit -m "docs: mark slice-2 finger-paint complete in roadmap"
 ```
+
+---
+
+---
+
+## Post-completion notes (2026-05-20)
+
+### ClearButton: GestureDetector → Listener
+
+**Problem found during live use:** `GestureDetector.onLongPressStart` has a mandatory 500 ms recognition window with zero visual feedback. In practice, users pressed the button and released before 500 ms elapsed, received `onLongPressCancel` with no visible response, and concluded the button was broken. Diagnostic logs (`Listener.onPointerDown/Up` + `debugPrint` on every gesture callback) confirmed this: every press showed `pointer DOWN → pointer UP → onLongPressCancel` with the pointer up happening before the long-press timer fired.
+
+**Fix applied:** Replaced `GestureDetector` in `clear_button.dart` with a raw `Listener`. `onPointerDown` now calls `_controller.forward()` immediately, starting the progress ring the instant the user touches the button. `onPointerUp` and `onPointerCancel` reset the controller. The animation still takes 2 seconds to complete before `onClear` fires — only the feedback latency changed (from 500 ms to 0 ms).
+
+**Files changed:** `lib/features/games/finger_paint/clear_button.dart` (Task 9 implementation replaced in-place; Task 9 plan text reflects the original design but the live code is the Listener version).
+
+**Note for future implementers:** The spec (`plan §4.4`) describes "a gentle two-second hold" — the fix honours this intention. The difference is purely in UX: immediate visual confirmation vs. invisible waiting period.
 
 ---
 
