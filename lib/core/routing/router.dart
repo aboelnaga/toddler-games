@@ -11,6 +11,7 @@ import 'package:toddler_games/core/settings/settings_notifier.dart';
 import 'package:toddler_games/features/games/_placeholder/placeholder_game_screen.dart';
 import 'package:toddler_games/features/games/bubble_pop/bubble_pop_screen.dart';
 import 'package:toddler_games/features/games/finger_paint/finger_paint_screen.dart';
+import 'package:toddler_games/features/games/shape_sorter/shape_sorter_screen.dart';
 import 'package:toddler_games/features/home/home_screen.dart';
 import 'package:toddler_games/features/settings/settings_screen.dart';
 
@@ -28,6 +29,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           final id = state.pathParameters['id']!;
           if (id == 'finger_paint') return const FingerPaintScreen();
           if (id == 'bubble_pop') return const BubblePopScreen();
+          if (id == 'shape_sorter') return const ShapeSorterScreen();
           return PlaceholderGameScreen(gameId: id);
         },
       ),
