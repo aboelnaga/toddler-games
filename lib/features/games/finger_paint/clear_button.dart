@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:toddler_games/core/theme/design_tokens.dart';
 
-/// Trash-can button that clears the canvas after 2-second hold.
+/// Trash-can button that clears the canvas after a 2-second hold.
+///
+/// Uses Listener (raw pointer events) instead of GestureDetector long-press
+/// so the progress ring starts immediately on pointer-down, giving instant
+/// visual feedback. GestureDetector long-press has a 500 ms dead zone with
+/// no feedback, which caused users to release thinking nothing was happening.
 class ClearButton extends StatefulWidget {
   const ClearButton({required this.onClear, super.key});
 
@@ -36,13 +41,19 @@ class _ClearButtonState extends State<ClearButton>
     super.dispose();
   }
 
+  void _onPointerDown(PointerDownEvent _) => _controller.forward();
+
+  void _onPointerUp(PointerUpEvent _) => _controller.reset();
+
+  void _onPointerCancel(PointerCancelEvent _) => _controller.reset();
+
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Listener(
       behavior: HitTestBehavior.opaque,
-      onLongPressStart: (_) => _controller.forward(),
-      onLongPressEnd: (_) => _controller.reset(),
-      onLongPressCancel: () => _controller.reset(),
+      onPointerDown: _onPointerDown,
+      onPointerUp: _onPointerUp,
+      onPointerCancel: _onPointerCancel,
       child: SizedBox(
         width: DesignTokens.minTouchTarget,
         height: DesignTokens.minTouchTarget,
