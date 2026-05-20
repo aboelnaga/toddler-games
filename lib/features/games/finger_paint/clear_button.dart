@@ -39,6 +39,7 @@ class _ClearButtonState extends State<ClearButton>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onLongPressStart: (_) => _controller.forward(),
       onLongPressEnd: (_) => _controller.reset(),
       onLongPressCancel: () => _controller.reset(),
