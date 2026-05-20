@@ -1,6 +1,6 @@
 # Roadmap & Status
 
-**Last updated:** 2026-05-20 (Slice 2 complete + post-completion ClearButton fix)
+**Last updated:** 2026-05-20 (Slice 3 complete — Bubble Pop)
 **Purpose:** orientation for any session (human or agent) picking up this project. Read this first.
 
 ---
@@ -37,13 +37,13 @@ We build the app as a series of small, independently shippable slices. Each slic
 | 0 | Project scaffold + tooling | [plan](plans/2026-05-11-slice-0-scaffold-and-tooling.md) | **Complete** (tag: `slice-0-complete`) | Empty app runs on iOS sim + Android emu, with Riverpod 3, go_router 17, lint stack, codegen, CI, lefthook, AI rules, compliance hardening |
 | 1 | App shell | [plan](plans/2026-05-11-slice-1-app-shell.md) | **Complete** (tag: `slice-1-complete`) | Home icon grid (placeholder tiles) + parent gate + settings, end-to-end navigable; 56 tests (50 widget + 6 golden) |
 | 2 | Game 4: Finger Paint | [plan](plans/2026-05-19-slice-2-finger-paint.md) | **Complete** (tag: `slice-2-complete`) | AudioService infra + CustomPainter canvas, color palette, magic rainbow brush, hold-to-clear (Listener-based, immediate feedback); goldens in both locales; 73 tests |
-| 3 | Game 2: Bubble Pop | not yet written | **Skeleton pending** | Many moving sprites tap-to-pop |
+| 3 | Game 2: Bubble Pop | [plan](plans/2026-05-20-slice-3-bubble-pop.md) | **Complete** (tag: `slice-3-complete`) | Ticker-driven bubble spawn + motion, tap-to-pop, deterministic seedable Random; goldens in both locales; 88 tests + 10 goldens |
 | 4 | Game 3: Shape Sorter | not yet written | **Skeleton pending** | Drag-and-drop with forgiving snap |
 | 5 | Game 1: Tap-to-Discover Zoo | not yet written | **Skeleton pending** | Animal scene, tap-to-animate + sound + name label |
 | 6 | Game 5: Drive the Vehicle | not yet written | **Skeleton pending** | Drag along curved path (hardest game) |
 | 7 | Release hardening + store submission | not yet written | **Skeleton pending** | Real privacy policy URL, real launcher icon, screenshots in both locales, age questionnaires, TestFlight / Play internal track |
 
-**Plan depth was decided to be "B"** (per brainstorm conversation): full plans for slices 0, 1, 2; lighter skeleton plans for 3–7. Slice 2 plan + Slices 3–7 skeletons are the next planning task.
+**Plan depth was decided to be "B"** (per brainstorm conversation): full plans for slices 0, 1, 2; lighter skeleton plans for 3–7. Slice 3 has its own medium-depth plan; Slices 4–7 skeletons are the next planning task.
 
 ---
 
@@ -52,8 +52,8 @@ We build the app as a series of small, independently shippable slices. Each slic
 1. **Read the PRD first**, then the design spec. Both live under `docs/superpowers/specs/`.
 2. **Check `MEMORY.md`** (auto-loaded by Claude Code when you open the project) for the hard invariants and project conventions.
 3. **Pick your next move**:
-   - If you're starting work: execute the next un-shipped slice (**Slice 3** is next — Slices 0, 1, 2 are complete).
-   - If you need to plan: write the next missing plan (Slice 3 skeleton → full plan, then 4–7 skeletons).
+   - If you're starting work: execute the next un-shipped slice (**Slice 4** is next — Slices 0, 1, 2, 3 are complete).
+   - If you need to plan: write the next missing plan (Slice 4 skeleton → full plan, then 5–7 skeletons).
 4. **Reference docs for any decision**:
    - Stack and rationale → design spec §9, §10
    - Product values and out-of-scope → PRD §5, §8, §9
@@ -146,11 +146,11 @@ pubspec.yaml                                      ← deps + asset registration
 
 If you (or any future agent) are picking up here cold and want to make progress:
 
-- **Decide Slice 3 target** — the owner (Mohamed) has not yet chosen which game to build next. Candidates: Bubble Pop (simplest, many sprites + tap-to-pop), or Tap-to-Discover Zoo (needs art assets for animals). Bubble Pop is the recommended next slice — no art required, pure motion + gesture.
-- **Write the Slice 3 plan** (Bubble Pop or Zoo, owner's call), then execute.
-- **Write Slices 4–7 skeleton plans** when ready.
+- **Decide Slice 4 target** — Shape Sorter is the planned next game per the slice table. Tap-to-Discover Zoo is the other open option but it requires animal art assets.
+- **Write the Slice 4 plan** (medium depth like Slice 3 is fine), then execute.
+- **Write Slices 5–7 skeleton plans** when ready.
 
-Slices 0, 1, 2 are complete. Navigate to `/game/finger_paint` to play Finger Paint.
-The app has 73 tests, 8 golden snapshots, full lint compliance, and AudioService infrastructure ready for any game.
+Slices 0, 1, 2, 3 are complete. Navigate to `/game/finger_paint` or `/game/bubble_pop` to play.
+The app has 88 unit/widget tests, 10 golden snapshots, full lint compliance, and AudioService infrastructure ready for any game.
 
 **Post-completion fix landed in Slice 2 (2026-05-20):** ClearButton was rebuilt on `Listener` (raw pointer events) instead of `GestureDetector` long-press. The GestureDetector had a 500 ms dead zone with no visual feedback, causing users to release thinking nothing was happening. The Listener version starts the progress ring immediately on pointer-down.
