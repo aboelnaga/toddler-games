@@ -35,6 +35,12 @@ flutter run --flavor development --target lib/main_development.dart
 # Android emu (dev)
 flutter run --flavor development --target lib/main_development.dart -d emulator-5554
 
+# macOS (dev) — plain
+flutter run -d macos --flavor development -t lib/main_development.dart
+
+# macOS (dev) — with auto hot-reload on lib/ changes
+bash scripts/dev_run.sh
+
 # Production flavor (release-mode build for testing release behavior locally)
 flutter run --flavor production --target lib/main_production.dart --release
 ```
