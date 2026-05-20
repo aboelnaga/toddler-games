@@ -14,6 +14,10 @@ import 'package:toddler_games/core/gate/parent_gate_screen.dart';
 import 'package:toddler_games/core/settings/settings_notifier.dart';
 import 'package:toddler_games/core/settings/settings_service.dart';
 import 'package:toddler_games/core/theme/app_theme.dart';
+import 'package:toddler_games/features/games/bubble_pop/bubble_notifier.dart';
+import 'package:toddler_games/features/games/bubble_pop/bubble_pop_screen.dart';
+import 'package:toddler_games/features/games/bubble_pop/models/bubble.dart';
+import 'package:toddler_games/features/games/bubble_pop/models/bubble_pop_state.dart';
 import 'package:toddler_games/features/games/finger_paint/finger_paint_screen.dart';
 import 'package:toddler_games/features/games/finger_paint/paint_notifier.dart';
 import 'package:toddler_games/features/home/home_screen.dart';
@@ -262,4 +266,117 @@ void main() {
       );
     });
   });
+
+  group('BubblePopScreen', () {
+    testWidgets('en golden', (tester) async {
+      _setPhoneViewport(tester);
+      addTearDown(tester.view.reset);
+
+      final container = await _makeContainer();
+      addTearDown(container.dispose);
+
+      final bubbleContainer = ProviderContainer(
+        parent: container,
+        overrides: [
+          bubbleProvider.overrideWith(_FrozenBubbleNotifier.new),
+        ],
+      );
+      addTearDown(bubbleContainer.dispose);
+
+      await tester.pumpWidget(
+        _wrap(
+          const BubblePopScreen(),
+          locale: _en,
+          container: bubbleContainer,
+        ),
+      );
+      await tester.pump();
+
+      await expectLater(
+        find.byType(BubblePopScreen),
+        matchesGoldenFile('goldens/bubble_pop_en.png'),
+      );
+    });
+
+    testWidgets('ar golden', (tester) async {
+      _setPhoneViewport(tester);
+      addTearDown(tester.view.reset);
+
+      final container = await _makeContainer();
+      addTearDown(container.dispose);
+
+      final bubbleContainer = ProviderContainer(
+        parent: container,
+        overrides: [
+          bubbleProvider.overrideWith(_FrozenBubbleNotifier.new),
+        ],
+      );
+      addTearDown(bubbleContainer.dispose);
+
+      await tester.pumpWidget(
+        _wrap(
+          const BubblePopScreen(),
+          locale: _ar,
+          container: bubbleContainer,
+        ),
+      );
+      await tester.pump();
+
+      await expectLater(
+        find.byType(BubblePopScreen),
+        matchesGoldenFile('goldens/bubble_pop_ar.png'),
+      );
+    });
+  });
+}
+
+/// Goldens need deterministic layout; this notifier ignores [tick] entirely
+/// and returns a fixed three-bubble snapshot from [build]. The Ticker in
+/// BubblePopScreen still fires but its mutations are dropped here.
+class _FrozenBubbleNotifier extends BubbleNotifier {
+  _FrozenBubbleNotifier();
+
+  @override
+  BubblePopState build() {
+    // Positions are in logical pixels; the golden viewport renders as
+    // ~390x844 (1170/3 x 2532/3).
+    return const BubblePopState(
+      bubbles: [
+        Bubble(
+          id: 1,
+          position: Offset(80, 720),
+          radius: 50,
+          color: Color(0xFFE53935),
+          velocityY: 60,
+        ),
+        Bubble(
+          id: 2,
+          position: Offset(290, 560),
+          radius: 60,
+          color: Color(0xFF1E88E5),
+          velocityY: 70,
+        ),
+        Bubble(
+          id: 3,
+          position: Offset(180, 380),
+          radius: 70,
+          color: Color(0xFFFDD835),
+          velocityY: 80,
+        ),
+        Bubble(
+          id: 4,
+          position: Offset(300, 220),
+          radius: 45,
+          color: Color(0xFF43A047),
+          velocityY: 50,
+        ),
+      ],
+      secondsUntilNextSpawn: 99,
+    );
+  }
+
+  @override
+  void tick(double dt, Size size) {
+    // Intentionally frozen.
+  }
 }
