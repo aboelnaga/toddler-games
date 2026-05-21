@@ -1,6 +1,6 @@
 # Roadmap & Status
 
-**Last updated:** 2026-05-20 (Slice 4 complete — Shape Sorter)
+**Last updated:** 2026-05-21 (Slice 5 complete — Tap-to-Discover Zoo)
 **Purpose:** orientation for any session (human or agent) picking up this project. Read this first.
 
 ---
@@ -39,11 +39,11 @@ We build the app as a series of small, independently shippable slices. Each slic
 | 2 | Game 4: Finger Paint | [plan](plans/2026-05-19-slice-2-finger-paint.md) | **Complete** (tag: `slice-2-complete`) | AudioService infra + CustomPainter canvas, color palette, magic rainbow brush, hold-to-clear (Listener-based, immediate feedback); goldens in both locales; 73 tests |
 | 3 | Game 2: Bubble Pop | [plan](plans/2026-05-20-slice-3-bubble-pop.md) | **Complete** (tag: `slice-3-complete`) | Ticker-driven bubble spawn + motion, tap-to-pop, deterministic seedable Random; goldens in both locales; 88 tests + 10 goldens |
 | 4 | Game 3: Shape Sorter | [plan](plans/2026-05-20-slice-4-shape-sorter.md) | **Complete** (tag: `slice-4-complete`) | Draggable/DragTarget with generous snap, 3 shapes (circle/star/triangle), celebration overlay + auto-reset; goldens in both locales; 97 tests + 12 goldens |
-| 5 | Game 1: Tap-to-Discover Zoo | not yet written | **Skeleton pending** | Animal scene, tap-to-animate + sound + name label |
+| 5 | Game 1: Tap-to-Discover Zoo | [plan](plans/2026-05-21-slice-5-zoo.md) | **Complete** (tag: `slice-5-complete`) | Wide horizontal-scroll watercolor scene with 7 tappable animals (cow, bird, cat, dog, duck, elephant, sheep), per-tap bounce + SFX + locale-aware spoken name; goldens in both locales; 122 tests + 14 goldens |
 | 6 | Game 5: Drive the Vehicle | not yet written | **Skeleton pending** | Drag along curved path (hardest game) |
 | 7 | Release hardening + store submission | not yet written | **Skeleton pending** | Real privacy policy URL, real launcher icon, screenshots in both locales, age questionnaires, TestFlight / Play internal track |
 
-**Plan depth was decided to be "B"** (per brainstorm conversation): full plans for slices 0, 1, 2; lighter skeleton plans for 3–7. Slices 3 and 4 have medium-depth plans; Slices 5–7 skeletons are the next planning task.
+**Plan depth was decided to be "B"** (per brainstorm conversation): full plans for slices 0, 1, 2; lighter skeleton plans for 3–7. Slices 3, 4, and 5 have medium-depth plans; Slices 6–7 skeletons are the next planning task.
 
 ---
 
@@ -52,8 +52,8 @@ We build the app as a series of small, independently shippable slices. Each slic
 1. **Read the PRD first**, then the design spec. Both live under `docs/superpowers/specs/`.
 2. **Check `MEMORY.md`** (auto-loaded by Claude Code when you open the project) for the hard invariants and project conventions.
 3. **Pick your next move**:
-   - If you're starting work: execute the next un-shipped slice (**Slice 5** is next — Slices 0, 1, 2, 3, 4 are complete).
-   - If you need to plan: write the next missing plan (Slice 5 skeleton → full plan, then 6–7 skeletons).
+   - If you're starting work: execute the next un-shipped slice (**Slice 6** is next — Slices 0, 1, 2, 3, 4, 5 are complete).
+   - If you need to plan: write the next missing plan (Slice 6 → medium plan, then 7 skeleton).
 4. **Reference docs for any decision**:
    - Stack and rationale → design spec §9, §10
    - Product values and out-of-scope → PRD §5, §8, §9
@@ -146,11 +146,15 @@ pubspec.yaml                                      ← deps + asset registration
 
 If you (or any future agent) are picking up here cold and want to make progress:
 
-- **Decide Slice 5 target** — Tap-to-Discover Zoo is the planned next game per the slice table. It needs animal art assets (or stand-in placeholders).
-- **Write the Slice 5 plan** (medium depth like Slice 3/4 is fine), then execute.
-- **Write Slices 6–7 skeleton plans** when ready.
+- **Plan Slice 6** (Drive the Vehicle). All art is ready (`vehicle-car.png` + `scene_drive.png` + side animals from the existing zoo set). Mechanic: drag the car along the painted road via an invisible CustomPainter path; side animals wave as the car passes.
+- **Write the Slice 7 skeleton** (release hardening) when ready.
 
-Slices 0, 1, 2, 3, 4 are complete. Navigate to `/game/finger_paint`, `/game/bubble_pop`, or `/game/shape_sorter` to play.
-The app has 97 unit/widget tests, 12 golden snapshots, full lint compliance, and AudioService infrastructure ready for any game.
+Slices 0, 1, 2, 3, 4, 5 are complete. Navigate to `/game/finger_paint`, `/game/bubble_pop`, `/game/shape_sorter`, or `/game/zoo` to play.
+The app has 108 unit/widget tests + 14 golden snapshots = **122 tests total**, full lint compliance, AudioService infrastructure ready for the remaining game, and a complete sprite + backdrop art set in `art/style-bible/` covering Slices 5 and 6.
+
+**Slice 5 follow-ups (non-blocking, track for polish pass):**
+- The leftmost scroll position is dominated by the foreground tree; consider an initial scroll offset or tighter animal positions so the first screen shows ~1-2 animals immediately.
+- Voice clips for 7 animals × 2 locales = 14 voice files plus 7 SFX files still missing (game ships silent until recorded; `AudioService` swallows missing-file errors).
+- `_CircleOverlayButton` now duplicated across 4 game screens — promote to `lib/core/widgets/`.
 
 **Post-completion fix landed in Slice 2 (2026-05-20):** ClearButton was rebuilt on `Listener` (raw pointer events) instead of `GestureDetector` long-press. The GestureDetector had a 500 ms dead zone with no visual feedback, causing users to release thinking nothing was happening. The Listener version starts the progress ring immediately on pointer-down.
