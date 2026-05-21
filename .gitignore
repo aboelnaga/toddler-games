@@ -1,6 +1,9 @@
 # Brainstorming session artifacts (visual companion mockups, server state)
 .superpowers/
 
+# Art generation candidates — regenerable scratch space, big PNGs
+art/style-bible/candidates/
+
 # macOS
 .DS_Store
 

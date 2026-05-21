@@ -1,24 +1,72 @@
 # Style Bible
 
-This folder holds source-of-truth art references for the project. **It is NOT bundled into the shipped app.**
+Source-of-truth art references. **NOT bundled into the shipped app.**
 
 ## What lives here
 
-- `mascot-fox.png` — the master reference image generated via Nano Banana (Gemini 2.5 Flash Image). Every subsequent generation references this image.
-- `reference-scenes/` — scene-level references (zoo backdrop, road for vehicle game, etc.).
-- `master-prompt.md` — the master prompt verbatim, plus prompt fragments for each asset type.
-- `palette.md` — hex codes and usage rules.
+- `mascot-fox.png` — **the locked master**. Style anchor for everything else. Every generation references this image.
+- `master-prompt.md` — human-readable master prompt + per-asset fragments.
+- `palette.md` — hex codes and usage rules (mirror of `lib/core/theme/design_tokens.dart`).
+- `assets.json` — machine-readable manifest read by `scripts/art_gen.py`.
+- `candidates/` — generated variants per asset (`<asset>/v1.png`...`vN.png`). Pick the winner, copy it up to `art/style-bible/<asset>.png`.
 
-## How to add a new asset
+## Workflow
 
-1. Open Google AI Studio (https://aistudio.google.com), Playground.
-2. Select Gemini 2.5 Flash Image as the model.
-3. Upload `mascot-fox.png` as a reference image.
-4. Paste the relevant prompt fragment from `master-prompt.md`.
-5. Generate. Iterate until happy.
-6. Save the **source** to `art/style-bible/` (NOT to `assets/`).
-7. Optimize a derivative (WebP, sized to target use) into `assets/images/games/<game>/`.
+### Generate (automated)
+
+```bash
+# One-time setup
+pip install google-genai
+echo 'GEMINI_API_KEY=your-key-here' > .env   # gitignored
+
+# Get a free key from https://aistudio.google.com → Get API key
+
+# List available assets
+python scripts/art_gen.py --list
+
+# Generate 4 variants of one asset (default count)
+python scripts/art_gen.py --asset vehicle-car
+
+# Generate everything in assets.json
+python scripts/art_gen.py --all
+```
+
+Variants land in `art/style-bible/candidates/<asset>/v1.png` ... `vN.png`.
+
+### Lock the winner
+
+1. Browse `candidates/<asset>/` and pick the best one.
+2. Copy it up: `cp art/style-bible/candidates/vehicle-car/v3.png art/style-bible/vehicle-car.png`.
+3. Optimize a bundled derivative:
+   - For sprites: `cwebp -q 92 -resize 1024 1024 art/style-bible/vehicle-car.png -o assets/images/games/drive_vehicle/car.webp` (or keep PNG with alpha if transparency is needed).
+4. Register new asset directories in `pubspec.yaml` under `flutter.assets`.
+5. Commit `art/style-bible/<asset>.png` and `assets/images/games/<game>/<file>` together.
+
+### Adding a new asset
+
+Edit `art/style-bible/assets.json` — add an entry with:
+
+```json
+"my-new-asset": {
+  "description": "short summary",
+  "output_bundle_path": "assets/images/games/<game>/<file>.png",
+  "prompt": "Subject: ...\n\nColour: ...\n\nBackdrop: ..."
+}
+```
+
+Then `python scripts/art_gen.py --asset my-new-asset`.
 
 ## Why source art is NOT bundled
 
-Style-bible images are large, high-resolution masters. Bundling them inflates the app binary unnecessarily and risks pushing the APK past size thresholds that trigger store-review scrutiny.
+Style-bible images are 2048x2048 PNGs at 1–5 MB each. Bundling them inflates the app binary unnecessarily and risks pushing the APK past size thresholds that trigger store-review scrutiny. The bundled derivatives in `assets/` are the optimized versions; this folder keeps the originals for re-export.
+
+## Style rules (don't deviate)
+
+See `palette.md` for the full list, but the four that matter most:
+
+1. **No outlines** anywhere on a character body. Form comes from flat shapes + soft inner shading.
+2. **Kindchenschema proportions** — oversized round head, big eyes with catchlights, chunky compact body.
+3. **One action on screen.** No busy compositions, no clutter.
+4. **Max ~6 hues per scene** drawn from the palette in `palette.md`.
+
+When in doubt, generate against `mascot-fox.png` as the style reference and judge whether the new asset looks like a sibling. If not, regenerate.

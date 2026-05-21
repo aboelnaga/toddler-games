@@ -1,0 +1,27 @@
+{
+  "_comment": "Asset manifest for scripts/art_gen.py. Each entry's 'prompt' is concatenated with the shared style fragment baked into art_gen.py. The master fox (mascot-fox.png) is uploaded as a reference image for every asset except itself, so the family resemblance stays consistent across generations.",
+
+  "vehicle-car": {
+    "description": "Slice 6 — friendly cartoon car, side-view, chunky.",
+    "output_bundle_path": "assets/images/games/drive_vehicle/car.png",
+    "prompt": "Subject: A friendly cartoon car, side view, facing right. The car has an oversized rounded body (taller than realistic, about 1.4 height-to-length ratio), two big chunky black wheels with cream rims, a single large rounded windshield with a small white catchlight on it (matches the fox's eye highlight style), no driver visible, smiling round headlights.\n\nColour:\n- Body: warm orange #ff8c42 (matches the fox)\n- Wheels: deep charcoal #2a2a2a with cream #fff5e6 rims\n- Windshield: pale sky peach #ffe1c0 with one small white catchlight\n- A tiny blush pink #ff6b9d roof or detail accent\n\nBackdrop: transparent / removed (we'll composite over the road in code). If transparent isn't available, use pure cream #fff5e6 background."
+  },
+
+  "animal-cow": {
+    "description": "Slice 6 side animal — cow waving from beside the road.",
+    "output_bundle_path": "assets/images/games/drive_vehicle/animal_cow.png",
+    "prompt": "Subject: A friendly cartoon cow, three-quarter view facing right, smiling, one front hoof raised in a small wave. Oversized round head, big round eyes with white catchlights, tiny rounded muzzle with a small smile, short rounded horns (not pointed).\n\nColour:\n- Body: cream #fff5e6 with a few large soft blush pink #ff6b9d spots\n- Hooves and horns: warm orange #ff8c42\n- Inner ears, muzzle: cream #fff5e6\n- Tiny blush dots on cheeks\n- Eyes: deep brown with white catchlights\n\nBackdrop: transparent / removed. Fallback: pure cream #fff5e6 background."
+  },
+
+  "animal-bird": {
+    "description": "Slice 6 side animal — songbird waving from beside the road.",
+    "output_bundle_path": "assets/images/games/drive_vehicle/animal_bird.png",
+    "prompt": "Subject: A friendly cartoon songbird perched, three-quarter view facing right, smiling, one wing slightly raised mid-wave. Oversized round head, big round eyes with white catchlights, tiny rounded beak in a small closed smile.\n\nColour:\n- Body: blush pink #ff6b9d\n- Belly accent and inner wings: cream #fff5e6\n- Beak and feet: warm orange #ff8c42\n- Eyes: deep brown with white catchlights\n\nBackdrop: transparent / removed. Fallback: pure cream #fff5e6 background."
+  },
+
+  "animal-cat": {
+    "description": "Slice 6 side animal — cat waving from beside the road. Note: lighter orange than the fox so they read as different characters.",
+    "output_bundle_path": "assets/images/games/drive_vehicle/animal_cat.png",
+    "prompt": "Subject: A friendly cartoon cat sitting upright, three-quarter view facing right, smiling, one front paw raised in a small wave. Oversized round head, big round eyes with white catchlights, tiny rounded muzzle with three tiny whisker dots and a small closed-smile mouth, rounded non-pointy ears.\n\nColour:\n- Body: lighter warm orange #ffb27a (push toward this shade so the cat reads as distinct from the fox)\n- Belly, inner ears, snout: cream #fff5e6\n- Tiny blush dot on each cheek: blush pink #ff6b9d\n- Eyes: deep brown with white catchlights\n\nBackdrop: transparent / removed. Fallback: pure cream #fff5e6 background."
+  }
+}
