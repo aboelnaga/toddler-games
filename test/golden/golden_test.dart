@@ -21,6 +21,7 @@ import 'package:toddler_games/features/games/bubble_pop/models/bubble_pop_state.
 import 'package:toddler_games/features/games/finger_paint/finger_paint_screen.dart';
 import 'package:toddler_games/features/games/finger_paint/paint_notifier.dart';
 import 'package:toddler_games/features/games/shape_sorter/shape_sorter_screen.dart';
+import 'package:toddler_games/features/games/zoo/zoo_screen.dart';
 import 'package:toddler_games/features/home/home_screen.dart';
 import 'package:toddler_games/features/settings/settings_screen.dart';
 import 'package:toddler_games/l10n/gen/app_localizations.dart';
@@ -374,6 +375,60 @@ void main() {
         matchesGoldenFile('goldens/shape_sorter_ar.png'),
       );
     });
+  });
+
+  group('ZooScreen', () {
+    testWidgets('en golden', (tester) async {
+      _setPhoneViewport(tester);
+      addTearDown(tester.view.reset);
+
+      final container = await _makeContainer();
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _wrap(const ZooScreen(), locale: _en, container: container),
+      );
+      await _precacheImages(tester);
+      await tester.pumpAndSettle();
+
+      await expectLater(
+        find.byType(ZooScreen),
+        matchesGoldenFile('goldens/zoo_en.png'),
+      );
+    });
+
+    testWidgets('ar golden', (tester) async {
+      _setPhoneViewport(tester);
+      addTearDown(tester.view.reset);
+
+      final container = await _makeContainer();
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _wrap(const ZooScreen(), locale: _ar, container: container),
+      );
+      await _precacheImages(tester);
+      await tester.pumpAndSettle();
+
+      await expectLater(
+        find.byType(ZooScreen),
+        matchesGoldenFile('goldens/zoo_ar.png'),
+      );
+    });
+  });
+}
+
+/// Forces bundled [Image.asset] widgets in the current tree to load real
+/// bytes. Widget tests normally run inside a fake-async zone that blocks
+/// the I/O an asset image needs, so `Image.asset` resolves to nothing and
+/// golden snapshots capture empty space. Escaping the zone with
+/// [WidgetTester.runAsync] lets [precacheImage] complete.
+Future<void> _precacheImages(WidgetTester tester) async {
+  await tester.runAsync(() async {
+    for (final element in find.byType(Image).evaluate()) {
+      final image = element.widget as Image;
+      await precacheImage(image.image, element);
+    }
   });
 }
 
