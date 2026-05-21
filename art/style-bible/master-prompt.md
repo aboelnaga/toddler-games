@@ -11,21 +11,28 @@ This is the canonical text to paste into Nano Banana (Gemini 2.5 Flash Image, vi
 Paste this fragment at the **top** of every prompt (master fox included). It locks the rendering style.
 
 ```
-Illustration style: chunky kindchenschema cartoon character on a soft warm
-watercolor backdrop. The character has an oversized round head, big round
+Illustration style: chunky kindchenschema cartoon character on a flat
+cream background. The character has an oversized round head, big round
 eyes with a small white catchlight in each eye, a tiny rounded snout/nose,
 and a chunky compact body with short limbs — no realistic anatomy. The
 character has NO outlines and NO black ink lines anywhere on its body;
-form is built from clean flat shapes with gentle inner shading. The
-backdrop is loose airy watercolor in pastel tones, NOT detailed and NOT
-busy. Reference exemplars: Sago Mini, Hey Duggee, Toca Boca. Mood: warm,
-calm, friendly, safe for a 2-year-old. Square aspect ratio, 2048x2048,
-centered subject filling about 70% of the frame, generous negative space
-around the character. No text, no decorative lettering, no logos.
+form is built from clean flat shapes with gentle inner shading. Reference
+exemplars: Sago Mini, Hey Duggee, Toca Boca. Mood: warm, calm, friendly,
+safe for a 2-year-old. Square aspect ratio, 2048x2048, centered subject
+filling about 70% of the frame, generous negative space around the
+character. No text, no decorative lettering, no logos.
+
+Background: a single pure flat cream #fff5e6 tone — NO watercolor, NO
+gradient, NO atmospheric wash, NO peach-to-green sky-and-meadow blend.
+The character must appear to float on the flat cream background. NO
+baked-in drop shadow beneath the character (shadows will be added
+programmatically in the app).
 
 AVOID: photorealism, fur texture detail, black outlines, harsh contrast,
 realistic proportions, scary or sharp features, fangs, wide-open mouths,
-predator stances, pastel-only low contrast, decorative text.
+predator stances, pastel-only low contrast, decorative text, watercolor
+backdrops, gradient backgrounds, atmospheric washes, drop shadows under
+the character.
 ```
 
 ---
@@ -50,9 +57,8 @@ Colour:
 - Eyes: deep brown #2a2a2a iris with a single small white catchlight
 - Pupils slightly oversized for cuteness
 
-Backdrop: soft watercolor wash, sky peach #ffe1c0 gradient at the top
-fading to a very soft hint of meadow green #a8d895 at the bottom. No
-horizon line, no details — pure atmospheric wash.
+Background: pure flat cream #fff5e6, no watercolor, no gradient, no
+shadow under the fox.
 ```
 
 **Iteration tips:**
