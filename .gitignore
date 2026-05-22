@@ -96,3 +96,4 @@ custom_lint.log
 # Environment files (none expected, but defensive)
 .env
 .env.*
+*.iml

@@ -8,31 +8,35 @@ This is the canonical text to paste into Nano Banana (Gemini 2.5 Flash Image, vi
 
 ## 0. Reusable style fragment
 
-Paste this fragment at the **top** of every prompt (master fox included). It locks the rendering style.
+Paste this fragment at the **top** of every **sprite** prompt (master fox + every animal + the vehicle). Scenes/backdrops have a different style — see §6.
+
+The background is now **pure flat magenta #ff00ff** (chroma-key green-screen style). Magenta never appears in our art palette, so post-processing strips the background trivially without risk of eating into character interiors. This replaces the old "flat cream #fff5e6" rule, which collided with the cream pixels inside characters (sheep wool, duck belly).
 
 ```
-Illustration style: chunky kindchenschema cartoon character on a flat
-cream background. The character has an oversized round head, big round
-eyes with a small white catchlight in each eye, a tiny rounded snout/nose,
-and a chunky compact body with short limbs — no realistic anatomy. The
-character has NO outlines and NO black ink lines anywhere on its body;
-form is built from clean flat shapes with gentle inner shading. Reference
-exemplars: Sago Mini, Hey Duggee, Toca Boca. Mood: warm, calm, friendly,
-safe for a 2-year-old. Square aspect ratio, 2048x2048, centered subject
-filling about 70% of the frame, generous negative space around the
-character. No text, no decorative lettering, no logos.
+Illustration style: chunky kindchenschema cartoon character on a pure
+flat magenta chroma-key background. The character has an oversized round
+head, big round eyes with a small white catchlight in each eye, a tiny
+rounded snout/nose, and a chunky compact body with short limbs — no
+realistic anatomy. The character has NO outlines and NO black ink lines
+anywhere on its body; form is built from clean flat shapes with gentle
+inner shading. Reference exemplars: Sago Mini, Hey Duggee, Toca Boca.
+Mood: warm, calm, friendly, safe for a 2-year-old. Square aspect ratio,
+2048x2048, centered subject filling about 70% of the frame, generous
+negative space around the character. No text, no decorative lettering,
+no logos.
 
-Background: a single pure flat cream #fff5e6 tone — NO watercolor, NO
-gradient, NO atmospheric wash, NO peach-to-green sky-and-meadow blend.
-The character must appear to float on the flat cream background. NO
-baked-in drop shadow beneath the character (shadows will be added
-programmatically in the app).
+Background: a single pure flat magenta #ff00ff tone (chroma-key colour)
+— NO watercolor, NO gradient, NO atmospheric wash, NO sky or meadow.
+The character must appear isolated on flat magenta so the background
+can be cleanly removed later. NO baked-in drop shadow beneath the
+character (shadows will be added programmatically in the app).
 
 AVOID: photorealism, fur texture detail, black outlines, harsh contrast,
 realistic proportions, scary or sharp features, fangs, wide-open mouths,
 predator stances, pastel-only low contrast, decorative text, watercolor
 backdrops, gradient backgrounds, atmospheric washes, drop shadows under
-the character.
+the character, magenta anywhere ON the character (it is reserved for
+the background only).
 ```
 
 ---
@@ -57,8 +61,9 @@ Colour:
 - Eyes: deep brown #2a2a2a iris with a single small white catchlight
 - Pupils slightly oversized for cuteness
 
-Background: pure flat cream #fff5e6, no watercolor, no gradient, no
-shadow under the fox.
+Background: pure flat magenta #ff00ff (chroma-key colour), no
+watercolor, no gradient, no shadow under the fox. The fox itself
+contains NO magenta — magenta is reserved for the background only.
 ```
 
 **Iteration tips:**

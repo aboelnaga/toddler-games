@@ -4,8 +4,9 @@ Source-of-truth art references. **NOT bundled into the shipped app.**
 
 ## What lives here
 
-- `mascot-fox.png` — **the locked master**. Style anchor for everything else. Every generation references this image.
-- `master-prompt.md` — human-readable master prompt + per-asset fragments.
+- `mascot-fox.png`, `animal_*.png`, `vehicle-car.png`, `scene_*.png` — **the locked masters**. These are the raw Gemini outputs. They may still have a background (magenta for sprites following the new prompt, or cream for older sprites). NOT bundled directly.
+- `transparent/` — sprites with backgrounds removed (via [remove.bg](https://www.remove.bg) for the original cream-bg generations, or via Gemini-with-magenta-bg + `optimize_art.py`'s automatic magenta keying for newer ones). This is the canonical source `scripts/optimize_art.py` reads sprites from.
+- `master-prompt.md` — human-readable master prompt + per-asset fragments. **Sprites now request a flat magenta `#ff00ff` chroma-key background** so post-processing is trivial.
 - `palette.md` — hex codes and usage rules (mirror of `lib/core/theme/design_tokens.dart`).
 - `assets.json` — machine-readable manifest read by `scripts/art_gen.py`.
 - `candidates/` — generated variants per asset (`<asset>/v1.png`...`vN.png`). Pick the winner, copy it up to `art/style-bible/<asset>.png`.

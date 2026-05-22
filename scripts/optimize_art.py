@@ -28,7 +28,7 @@ import sys
 from pathlib import Path
 
 try:
-    from PIL import Image, ImageDraw, ImageFilter  # type: ignore
+    from PIL import Image  # type: ignore
 except ImportError:
     sys.stderr.write(
         "Pillow is not installed. Run:\n"
@@ -39,7 +39,13 @@ except ImportError:
 REPO = Path(__file__).resolve().parent.parent
 STYLE_BIBLE = REPO / "art" / "style-bible"
 
-# (source filename, bundle path, kind)
+# Sprites are sourced from `art/style-bible/transparent/` — backgrounds
+# already removed (typically by remove.bg or Gemini-with-magenta-bg).
+# Scenes are sourced directly from `art/style-bible/` since they don't
+# need keying — the watercolor wash IS the intended look.
+SPRITE_SRC = STYLE_BIBLE / "transparent"
+
+# (source filename relative to its kind's source dir, bundle path, kind)
 ASSETS: list[tuple[str, str, str]] = [
     # Zoo sprites
     ("animal_cow.png", "assets/images/games/zoo/animal_cow.png", "sprite"),
@@ -49,88 +55,17 @@ ASSETS: list[tuple[str, str, str]] = [
     ("animal_duck.png", "assets/images/games/zoo/animal_duck.png", "sprite"),
     ("animal_elephant.png", "assets/images/games/zoo/animal_elephant.png", "sprite"),
     ("animal_sheep.png", "assets/images/games/zoo/animal_sheep.png", "sprite"),
-    # Zoo scene
+    # Zoo scene (watercolor, not chroma-keyed)
     ("scene_zoo.png", "assets/images/games/zoo/scene_zoo.png", "scene"),
     # (Slice 6 will add: vehicle-car, scene_drive)
 ]
 
 SPRITE_SIZE = 512
 SCENE_WIDTH = 2048
-# Floodfill threshold — distance between a candidate pixel and its
-# flood-fill seed (corner pixel). Conservative so we never leak into
-# character interiors (sheep wool, duck belly are dangerously close to
-# the background cream). The dilation step below recovers any pixels
-# we wrongly pulled in.
-FLOOD_THRESH = 42
-
-# Magenta marker — placed by floodfill into background regions so we can
-# distinguish them. The character art never contains pure magenta.
-MARKER = (255, 0, 255)
-
-# Pixels to push the opaque mask outward after flood-fill. Recovers any
-# character edge that the flood erroneously caught. Larger = safer but
-# leaves more residual halo.
-ALPHA_DILATE_PX = 2
-
-# Edge feather radius in pixels — softens the alpha boundary so character
-# silhouettes don't look hard-edged against the scene.
-ALPHA_FEATHER = 1.2
-
-
 def crop_border(img: Image.Image, percent: float) -> Image.Image:
     w, h = img.size
     dx, dy = int(w * percent), int(h * percent)
     return img.crop((dx, dy, w - dx, h - dy))
-
-
-def background_to_alpha(img: Image.Image) -> Image.Image:
-    """Remove the background by flood-filling from all four corners.
-
-    The chroma-key approach (any cream-ish pixel → transparent) leaks at
-    sprite-tile edges because of subtle compression and watercolor
-    texture. Worse, it eats into character interiors that happen to be
-    cream-coloured (sheep wool, duck belly).
-
-    Flood-fill solves both: we seed from corners (definitely background)
-    and only mark the *connected* cream region as transparent. Anything
-    cream inside the character is unreachable and stays opaque.
-    """
-    img = img.convert("RGBA")
-    w, h = img.size
-
-    # Work on an RGB copy so floodfill can splash a marker colour without
-    # interfering with the alpha channel.
-    marker_img = img.convert("RGB").copy()
-    for seed in ((0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1)):
-        ImageDraw.floodfill(
-            marker_img,
-            xy=seed,
-            value=MARKER,
-            thresh=FLOOD_THRESH,
-        )
-
-    marker_px = marker_img.load()
-    img_px = img.load()
-    if marker_px is None or img_px is None:
-        return img
-
-    for y in range(h):
-        for x in range(w):
-            if marker_px[x, y] == MARKER:
-                r, g, b, _ = img_px[x, y]
-                img_px[x, y] = (r, g, b, 0)
-
-    # Dilate the opaque region a couple of pixels — this recovers any
-    # character edge pixels that the conservative flood-fill happened to
-    # catch (especially on light-cream silhouettes like the sheep's wool
-    # or the duck's belly).
-    a = img.getchannel("A")
-    a = a.filter(ImageFilter.MaxFilter(size=2 * ALPHA_DILATE_PX + 1))
-
-    # Then soft-feather so character edges don't read as hard-cut.
-    a = a.filter(ImageFilter.GaussianBlur(ALPHA_FEATHER))
-    img.putalpha(a)
-    return img
 
 
 def tight_crop(img: Image.Image, padding: int = 4) -> Image.Image:
@@ -156,10 +91,62 @@ def fit_into_square(img: Image.Image, size: int) -> Image.Image:
     return canvas
 
 
+MAGENTA = (255, 0, 255)
+MAGENTA_THRESH = 60
+
+
+def has_meaningful_alpha(img: Image.Image, sample_corners: int = 4) -> bool:
+    """Return True if the corners are already transparent — i.e. the
+    source already has its background removed (came from remove.bg, an
+    older bundle, etc.).
+    """
+    if img.mode != "RGBA":
+        return False
+    w, h = img.size
+    px = img.load()
+    if px is None:
+        return False
+    samples = [px[0, 0], px[w - 1, 0], px[0, h - 1], px[w - 1, h - 1]]
+    transparent = sum(1 for s in samples if s[3] < 128)
+    return transparent >= sample_corners // 2
+
+
+def magenta_to_alpha(img: Image.Image) -> Image.Image:
+    """Chroma-key magenta #ff00ff to transparency. Used when a fresh
+    Gemini sprite arrives with the magenta background specified by the
+    updated master prompt — no flood-fill needed because magenta never
+    appears in our art, so a simple per-pixel threshold is safe and
+    won't bleed into character interiors.
+    """
+    img = img.convert("RGBA")
+    px = img.load()
+    if px is None:
+        return img
+    w, h = img.size
+    mr, mg, mb = MAGENTA
+    for y in range(h):
+        for x in range(w):
+            r, g, b, a = px[x, y]
+            d = abs(r - mr) + abs(g - mg) + abs(b - mb)
+            if d < MAGENTA_THRESH:
+                px[x, y] = (r, g, b, 0)
+    return img
+
+
 def process_sprite(src: Path, dst: Path) -> None:
-    img = Image.open(src)
-    img = crop_border(img, 0.05)
-    img = background_to_alpha(img)
+    """Sprite pipeline. Sources can be in three states; the script
+    auto-detects which and does the right thing:
+
+    1. Pre-transparent (from remove.bg, or an already-bundled asset) →
+       no keying needed, just tight-crop + resize.
+    2. Magenta-backgrounded (fresh Gemini output following the updated
+       master prompt) → chroma-key magenta then tight-crop + resize.
+    3. Anything else → falls through to (2), assumed magenta. Cream
+       backgrounds are no longer supported (deprecated workflow).
+    """
+    img = Image.open(src).convert("RGBA")
+    if not has_meaningful_alpha(img):
+        img = magenta_to_alpha(img)
     img = tight_crop(img)
     img = fit_into_square(img, SPRITE_SIZE)
     dst.parent.mkdir(parents=True, exist_ok=True)
@@ -188,7 +175,8 @@ def main() -> None:
     for src_name, bundle_path, kind in ASSETS:
         if args.asset and args.asset not in src_name:
             continue
-        src = STYLE_BIBLE / src_name
+        src_dir = SPRITE_SRC if kind == "sprite" else STYLE_BIBLE
+        src = src_dir / src_name
         dst = REPO / bundle_path
         if not src.exists():
             print(f"  skip    {src_name:24} (master missing)", file=sys.stderr)
