@@ -91,6 +91,7 @@ class _AnimalViewState extends ConsumerState<AnimalView>
           widget.config.assetPath,
           width: widget.tileSize,
           height: widget.tileSize,
+          filterQuality: FilterQuality.high,
         ),
       ),
     );

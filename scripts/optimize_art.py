@@ -57,13 +57,20 @@ ASSETS: list[tuple[str, str, str]] = [
 SPRITE_SIZE = 512
 SCENE_WIDTH = 2048
 # Floodfill threshold — distance between a candidate pixel and its
-# flood-fill seed (corner pixel). Generous enough to bridge subtle
-# watercolor-texture variations in the cream background.
-FLOOD_THRESH = 60
+# flood-fill seed (corner pixel). Conservative so we never leak into
+# character interiors (sheep wool, duck belly are dangerously close to
+# the background cream). The dilation step below recovers any pixels
+# we wrongly pulled in.
+FLOOD_THRESH = 42
 
 # Magenta marker — placed by floodfill into background regions so we can
 # distinguish them. The character art never contains pure magenta.
 MARKER = (255, 0, 255)
+
+# Pixels to push the opaque mask outward after flood-fill. Recovers any
+# character edge that the flood erroneously caught. Larger = safer but
+# leaves more residual halo.
+ALPHA_DILATE_PX = 2
 
 # Edge feather radius in pixels — softens the alpha boundary so character
 # silhouettes don't look hard-edged against the scene.
@@ -113,9 +120,15 @@ def background_to_alpha(img: Image.Image) -> Image.Image:
                 r, g, b, _ = img_px[x, y]
                 img_px[x, y] = (r, g, b, 0)
 
-    # Soft-feather the alpha boundary so character edges don't read as
-    # hard-cut. We extract the alpha plane, blur it, paste it back.
-    a = img.getchannel("A").filter(ImageFilter.GaussianBlur(ALPHA_FEATHER))
+    # Dilate the opaque region a couple of pixels — this recovers any
+    # character edge pixels that the conservative flood-fill happened to
+    # catch (especially on light-cream silhouettes like the sheep's wool
+    # or the duck's belly).
+    a = img.getchannel("A")
+    a = a.filter(ImageFilter.MaxFilter(size=2 * ALPHA_DILATE_PX + 1))
+
+    # Then soft-feather so character edges don't read as hard-cut.
+    a = a.filter(ImageFilter.GaussianBlur(ALPHA_FEATHER))
     img.putalpha(a)
     return img
 
