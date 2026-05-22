@@ -28,7 +28,7 @@ import sys
 from pathlib import Path
 
 try:
-    from PIL import Image  # type: ignore
+    from PIL import Image, ImageDraw, ImageFilter  # type: ignore
 except ImportError:
     sys.stderr.write(
         "Pillow is not installed. Run:\n"
@@ -56,9 +56,18 @@ ASSETS: list[tuple[str, str, str]] = [
 
 SPRITE_SIZE = 512
 SCENE_WIDTH = 2048
-CREAM = (255, 245, 230)  # #fff5e6 (matches DesignTokens.cream)
-CREAM_HARD_DIST = 18     # below this color distance → fully transparent
-CREAM_SOFT_DIST = 36     # between hard and soft → partial alpha for feather
+# Floodfill threshold — distance between a candidate pixel and its
+# flood-fill seed (corner pixel). Generous enough to bridge subtle
+# watercolor-texture variations in the cream background.
+FLOOD_THRESH = 60
+
+# Magenta marker — placed by floodfill into background regions so we can
+# distinguish them. The character art never contains pure magenta.
+MARKER = (255, 0, 255)
+
+# Edge feather radius in pixels — softens the alpha boundary so character
+# silhouettes don't look hard-edged against the scene.
+ALPHA_FEATHER = 1.2
 
 
 def crop_border(img: Image.Image, percent: float) -> Image.Image:
@@ -67,24 +76,47 @@ def crop_border(img: Image.Image, percent: float) -> Image.Image:
     return img.crop((dx, dy, w - dx, h - dy))
 
 
-def cream_to_alpha(img: Image.Image) -> Image.Image:
-    """Replace cream-coloured pixels with transparency using a soft feather."""
+def background_to_alpha(img: Image.Image) -> Image.Image:
+    """Remove the background by flood-filling from all four corners.
+
+    The chroma-key approach (any cream-ish pixel → transparent) leaks at
+    sprite-tile edges because of subtle compression and watercolor
+    texture. Worse, it eats into character interiors that happen to be
+    cream-coloured (sheep wool, duck belly).
+
+    Flood-fill solves both: we seed from corners (definitely background)
+    and only mark the *connected* cream region as transparent. Anything
+    cream inside the character is unreachable and stays opaque.
+    """
     img = img.convert("RGBA")
-    px = img.load()
-    if px is None:
-        return img
     w, h = img.size
-    cr, cg, cb = CREAM
+
+    # Work on an RGB copy so floodfill can splash a marker colour without
+    # interfering with the alpha channel.
+    marker_img = img.convert("RGB").copy()
+    for seed in ((0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1)):
+        ImageDraw.floodfill(
+            marker_img,
+            xy=seed,
+            value=MARKER,
+            thresh=FLOOD_THRESH,
+        )
+
+    marker_px = marker_img.load()
+    img_px = img.load()
+    if marker_px is None or img_px is None:
+        return img
+
     for y in range(h):
         for x in range(w):
-            r, g, b, a = px[x, y]
-            d = abs(r - cr) + abs(g - cg) + abs(b - cb)
-            if d < CREAM_HARD_DIST:
-                px[x, y] = (r, g, b, 0)
-            elif d < CREAM_SOFT_DIST:
-                # Linear feather between hard and soft thresholds.
-                t = (d - CREAM_HARD_DIST) / (CREAM_SOFT_DIST - CREAM_HARD_DIST)
-                px[x, y] = (r, g, b, int(a * t))
+            if marker_px[x, y] == MARKER:
+                r, g, b, _ = img_px[x, y]
+                img_px[x, y] = (r, g, b, 0)
+
+    # Soft-feather the alpha boundary so character edges don't read as
+    # hard-cut. We extract the alpha plane, blur it, paste it back.
+    a = img.getchannel("A").filter(ImageFilter.GaussianBlur(ALPHA_FEATHER))
+    img.putalpha(a)
     return img
 
 
@@ -114,7 +146,7 @@ def fit_into_square(img: Image.Image, size: int) -> Image.Image:
 def process_sprite(src: Path, dst: Path) -> None:
     img = Image.open(src)
     img = crop_border(img, 0.05)
-    img = cream_to_alpha(img)
+    img = background_to_alpha(img)
     img = tight_crop(img)
     img = fit_into_square(img, SPRITE_SIZE)
     dst.parent.mkdir(parents=True, exist_ok=True)
