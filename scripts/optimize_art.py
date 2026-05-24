@@ -175,6 +175,9 @@ def process_sprite(src: Path, dst: Path) -> None:
     """
     img = Image.open(src).convert("RGBA")
     if not has_meaningful_alpha(img):
+        # Fresh Gemini output — crop the small "✦" sparkle Gemini stamps
+        # into a corner, then chroma-key the magenta backdrop.
+        img = crop_border(img, 0.05)
         img = magenta_to_alpha(img)
     img = tight_crop(img)
     img = fit_into_square(img, SPRITE_SIZE)
