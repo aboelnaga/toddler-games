@@ -28,7 +28,7 @@ import sys
 from pathlib import Path
 
 try:
-    from PIL import Image  # type: ignore
+    from PIL import Image, ImageFilter  # type: ignore
 except ImportError:
     sys.stderr.write(
         "Pillow is not installed. Run:\n"
@@ -92,7 +92,22 @@ def fit_into_square(img: Image.Image, size: int) -> Image.Image:
 
 
 MAGENTA = (255, 0, 255)
-MAGENTA_THRESH = 60
+
+# Distance threshold for the magenta chroma-key. Generous enough to catch
+# the anti-aliased semi-magenta gradient at character edges (~70-90%
+# magenta fringe pixels). Closest palette colour (blush pink #ff6b9d) is
+# distance 205 from pure magenta, so values up to ~150 are safely below
+# any legitimate sprite colour.
+MAGENTA_THRESH = 130
+
+# After keying, erode the opaque mask by this many pixels. Eliminates any
+# residual semi-magenta fringe at the silhouette boundary at the cost of
+# shrinking the character by ~1px in a 512px image (visually negligible).
+ALPHA_ERODE_PX = 1
+
+# Soft Gaussian on the alpha after erosion so the silhouette isn't a hard
+# 1-pixel cut.
+ALPHA_FEATHER = 0.8
 
 
 def has_meaningful_alpha(img: Image.Image, sample_corners: int = 4) -> bool:
@@ -112,11 +127,17 @@ def has_meaningful_alpha(img: Image.Image, sample_corners: int = 4) -> bool:
 
 
 def magenta_to_alpha(img: Image.Image) -> Image.Image:
-    """Chroma-key magenta #ff00ff to transparency. Used when a fresh
-    Gemini sprite arrives with the magenta background specified by the
-    updated master prompt — no flood-fill needed because magenta never
-    appears in our art, so a simple per-pixel threshold is safe and
-    won't bleed into character interiors.
+    """Chroma-key magenta #ff00ff to transparency.
+
+    Used when a fresh Gemini sprite arrives with the magenta background
+    specified by the updated master prompt. Magenta never appears in our
+    art so a simple per-pixel distance threshold is safe and won't bleed
+    into character interiors.
+
+    After the keying we erode the opaque mask by [ALPHA_ERODE_PX] pixels
+    to remove any residual semi-magenta fringe at the silhouette edge
+    (anti-aliased pixels between full magenta and full subject), then
+    feather slightly so the silhouette stays soft.
     """
     img = img.convert("RGBA")
     px = img.load()
@@ -130,6 +151,14 @@ def magenta_to_alpha(img: Image.Image) -> Image.Image:
             d = abs(r - mr) + abs(g - mg) + abs(b - mb)
             if d < MAGENTA_THRESH:
                 px[x, y] = (r, g, b, 0)
+
+    # Erode opaque region by ALPHA_ERODE_PX pixels — kills the residual
+    # magenta-fringe ring. MinFilter shrinks bright (opaque) regions.
+    a = img.getchannel("A")
+    a = a.filter(ImageFilter.MinFilter(size=2 * ALPHA_ERODE_PX + 1))
+    # Soft Gaussian feather so the eroded edge isn't a hard cut.
+    a = a.filter(ImageFilter.GaussianBlur(ALPHA_FEATHER))
+    img.putalpha(a)
     return img
 
 
