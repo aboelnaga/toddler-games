@@ -10,34 +10,39 @@ This is the canonical text to paste into Nano Banana (Gemini 2.5 Flash Image, vi
 
 Paste this fragment at the **top** of every **sprite** prompt (master fox + every animal + the vehicle). Scenes/backdrops have a different style — see §6.
 
-The background is now **pure flat magenta #ff00ff** (chroma-key green-screen style). Magenta never appears in our art palette, so post-processing strips the background trivially without risk of eating into character interiors. This replaces the old "flat cream #fff5e6" rule, which collided with the cream pixels inside characters (sheep wool, duck belly).
+The background asks for **"transparent"**. Gemini 2.5 Flash Image can't actually produce alpha — instead it paints the standard grey-and-white checker pattern used in image editors to visually represent transparency. That checker pattern is unmistakable to remove.bg's subject-detection AI, which strips it cleanly with no colour bleed at edges (the trick lives in the prompt — see below).
+
+This supersedes the previous "flat magenta" approach, which left a thin semi-magenta halo at character silhouettes (anti-aliased edge pixels were 70-90% magenta and didn't fully chroma-key).
 
 ```
-Illustration style: chunky kindchenschema cartoon character on a pure
-flat magenta chroma-key background. The character has an oversized round
-head, big round eyes with a small white catchlight in each eye, a tiny
-rounded snout/nose, and a chunky compact body with short limbs — no
-realistic anatomy. The character has NO outlines and NO black ink lines
-anywhere on its body; form is built from clean flat shapes with gentle
-inner shading. Reference exemplars: Sago Mini, Hey Duggee, Toca Boca.
-Mood: warm, calm, friendly, safe for a 2-year-old. Square aspect ratio,
+Illustration style: chunky kindchenschema cartoon character on a
+transparent background. The character has an oversized round head, big
+round eyes with a small white catchlight in each eye, a tiny rounded
+snout/nose, and a chunky compact body with short limbs — no realistic
+anatomy. The character has NO outlines and NO black ink lines anywhere
+on its body; form is built from clean flat shapes with gentle inner
+shading. Reference exemplars: Sago Mini, Hey Duggee, Toca Boca. Mood:
+warm, calm, friendly, safe for a 2-year-old. Square aspect ratio,
 2048x2048, centered subject filling about 70% of the frame, generous
 negative space around the character. No text, no decorative lettering,
 no logos.
 
-Background: a single pure flat magenta #ff00ff tone (chroma-key colour)
-— NO watercolor, NO gradient, NO atmospheric wash, NO sky or meadow.
-The character must appear isolated on flat magenta so the background
-can be cleanly removed later. NO baked-in drop shadow beneath the
-character (shadows will be added programmatically in the app).
+Background: TRANSPARENT — show the standard grey-and-white checkerboard
+pattern that image editors use to indicate transparency. NO solid
+colour, NO watercolor, NO gradient, NO atmospheric wash, NO sky or
+meadow. The character must appear isolated on the checkerboard so the
+background can be cleanly removed later. NO baked-in drop shadow
+beneath the character (shadows will be added programmatically in the
+app).
 
 AVOID: photorealism, fur texture detail, black outlines, harsh contrast,
 realistic proportions, scary or sharp features, fangs, wide-open mouths,
 predator stances, pastel-only low contrast, decorative text, watercolor
 backdrops, gradient backgrounds, atmospheric washes, drop shadows under
-the character, magenta anywhere ON the character (it is reserved for
-the background only).
+the character, solid-colour backgrounds.
 ```
+
+**Post-processing:** drag the Gemini output into [remove.bg](https://www.remove.bg) — its subject-detection AI strips the checker pattern with no color bleed at edges. Download the result and drop it into `art/style-bible/transparent/<name>.png`. The `optimize_art.py` script auto-detects pre-transparent inputs and skips chroma-keying entirely.
 
 ---
 
@@ -61,9 +66,9 @@ Colour:
 - Eyes: deep brown #2a2a2a iris with a single small white catchlight
 - Pupils slightly oversized for cuteness
 
-Background: pure flat magenta #ff00ff (chroma-key colour), no
-watercolor, no gradient, no shadow under the fox. The fox itself
-contains NO magenta — magenta is reserved for the background only.
+Background: TRANSPARENT — show the standard grey-and-white checkerboard
+pattern that image editors use to indicate transparency. NO solid
+colour, no watercolor, no gradient, no shadow under the fox.
 ```
 
 **Iteration tips:**
